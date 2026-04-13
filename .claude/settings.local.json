@@ -4,7 +4,8 @@
       "Bash(php:*)",
       "Bash(python:*)",
       "Bash(mysql:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(write:*)"
     ]
   }
 }

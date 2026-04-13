@@ -55,20 +55,32 @@ class PersonController extends BaseApiController
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'Name' => ['required', 'string'],
-            'Sex' => ['nullable', 'integer'],
-            'Email' => ['required', 'email'],
-            'AvatarUrl' => ['nullable', 'string'],
-            'DateOfBirth' => ['nullable', 'date'],
-            'PhoneNumber' => ['nullable', 'string'],
-            'Address' => ['nullable', 'string'],
-            'Password' => ['required', 'string', 'min:6'],
-            'BankID' => ['nullable', 'string'],
-            'BankAccountNumber' => ['nullable', 'string'],
-            'BankName' => ['nullable', 'string'],
+            'name' => ['required', 'string'],
+            'sex' => ['nullable', 'integer'],
+            'email' => ['required', 'email'],
+            'avatarUrl' => ['nullable', 'string'],
+            'dateOfBirth' => ['nullable', 'date'],
+            'phoneNumber' => ['nullable', 'string'],
+            'address' => ['nullable', 'string'],
+            'password' => ['required', 'string', 'min:6'],
+            'bankId' => ['nullable', 'string'],
+            'bankAccountNumber' => ['nullable', 'string'],
+            'bankName' => ['nullable', 'string'],
         ]);
 
-        $this->personService->create($validated, $this->currentUserId() ?? 0);
+        $this->personService->create([
+            'Name' => $validated['name'],
+            'Sex' => $validated['sex'] ?? null,
+            'Email' => $validated['email'],
+            'AvatarUrl' => $validated['avatarUrl'] ?? null,
+            'DateOfBirth' => $validated['dateOfBirth'] ?? null,
+            'PhoneNumber' => $validated['phoneNumber'] ?? null,
+            'Address' => $validated['address'] ?? null,
+            'Password' => $validated['password'],
+            'BankID' => $validated['bankId'] ?? null,
+            'BankAccountNumber' => $validated['bankAccountNumber'] ?? null,
+            'BankName' => $validated['bankName'] ?? null,
+        ], $this->currentUserId() ?? 0);
 
         return response()->json(true);
     }
@@ -76,16 +88,24 @@ class PersonController extends BaseApiController
     public function update(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'Id' => ['required', 'integer'],
-            'Name' => ['required', 'string'],
-            'Email' => ['required', 'email'],
-            'PhoneNumber' => ['nullable', 'string'],
-            'Address' => ['nullable', 'string'],
-            'DateOfBirth' => ['nullable', 'date'],
-            'ProfilePictureUrl' => ['nullable', 'string'],
+            'id' => ['required', 'integer'],
+            'name' => ['required', 'string'],
+            'email' => ['required', 'email'],
+            'phoneNumber' => ['nullable', 'string'],
+            'address' => ['nullable', 'string'],
+            'dateOfBirth' => ['nullable', 'date'],
+            'profilePictureUrl' => ['nullable', 'string'],
         ]);
 
-        $this->personService->update($validated, $this->currentUserId() ?? 0);
+        $this->personService->update([
+            'Id' => $validated['id'],
+            'Name' => $validated['name'],
+            'Email' => $validated['email'],
+            'PhoneNumber' => $validated['phoneNumber'] ?? null,
+            'Address' => $validated['address'] ?? null,
+            'DateOfBirth' => $validated['dateOfBirth'] ?? null,
+            'ProfilePictureUrl' => $validated['profilePictureUrl'] ?? null,
+        ], $this->currentUserId() ?? 0);
 
         return response()->json(true);
     }
@@ -93,10 +113,10 @@ class PersonController extends BaseApiController
     public function destroy(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'Id' => ['required', 'integer'],
+            'id' => ['required', 'integer'],
         ]);
 
-        $this->personService->delete((int) $validated['Id'], $this->currentUserId() ?? 0);
+        $this->personService->delete((int) $validated['id'], $this->currentUserId() ?? 0);
 
         return response()->json(true);
     }

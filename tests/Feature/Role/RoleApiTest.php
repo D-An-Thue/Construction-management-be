@@ -58,8 +58,8 @@ class RoleApiTest extends TestCase
         $token = $this->makeJwt($admin->Id, ['role.manage']);
 
         $response = $this->postJson('/api/roles', [
-            'RoleName' => 'Supervisor',
-            'Description' => 'Supervisor role',
+            'roleName' => 'Supervisor',
+            'description' => 'Supervisor role',
         ], [
             'Authorization' => 'Bearer '.$token,
         ]);
@@ -103,7 +103,7 @@ class RoleApiTest extends TestCase
         ]);
 
         $assign = $this->postJson('/api/roles/'.$role->Id.'/permissions', [
-            'PermissionId' => $permission->Id,
+            'permissionId' => $permission->Id,
         ], [
             'Authorization' => 'Bearer '.$token,
         ]);

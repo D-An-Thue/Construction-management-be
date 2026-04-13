@@ -105,15 +105,15 @@ class RoleController extends BaseApiController
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'RoleName' => ['required', 'string'],
-            'Description' => ['nullable', 'string'],
+            'roleName' => ['required', 'string'],
+            'description' => ['nullable', 'string'],
         ]);
 
         $actorId = $this->currentUserId() ?? 0;
 
         $this->roleService->createRole([
-            'RoleName' => $validated['RoleName'],
-            'Description' => $validated['Description'] ?? '',
+            'RoleName' => $validated['roleName'],
+            'Description' => $validated['description'] ?? '',
             'actorId' => $actorId,
         ]);
 
@@ -123,16 +123,16 @@ class RoleController extends BaseApiController
     public function update(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'Id' => ['required', 'integer'],
-            'RoleName' => ['required', 'string'],
-            'Description' => ['nullable', 'string'],
+            'id' => ['required', 'integer'],
+            'roleName' => ['required', 'string'],
+            'description' => ['nullable', 'string'],
         ]);
 
         $actorId = $this->currentUserId() ?? 0;
 
-        $this->roleService->updateRole((int) $validated['Id'], [
-            'RoleName' => $validated['RoleName'],
-            'Description' => $validated['Description'] ?? '',
+        $this->roleService->updateRole((int) $validated['id'], [
+            'RoleName' => $validated['roleName'],
+            'Description' => $validated['description'] ?? '',
             'actorId' => $actorId,
         ]);
 
@@ -150,10 +150,10 @@ class RoleController extends BaseApiController
     public function assignPermission(int $roleId, Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'PermissionId' => ['required', 'integer'],
+            'permissionId' => ['required', 'integer'],
         ]);
 
-        $this->roleService->assignPermission($roleId, (int) $validated['PermissionId']);
+        $this->roleService->assignPermission($roleId, (int) $validated['permissionId']);
 
         return response()->json(true);
     }
@@ -168,10 +168,10 @@ class RoleController extends BaseApiController
     public function assignUser(int $roleId, Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'PersonId' => ['required', 'integer'],
+            'personId' => ['required', 'integer'],
         ]);
 
-        $this->roleService->assignUser($roleId, (int) $validated['PersonId']);
+        $this->roleService->assignUser($roleId, (int) $validated['personId']);
 
         return response()->json(true);
     }

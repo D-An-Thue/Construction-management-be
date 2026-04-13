@@ -17,11 +17,11 @@ class AuthController extends BaseApiController
     public function login(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'Email' => ['required', 'email'],
-            'Password' => ['required', 'string'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string'],
         ]);
 
-        $result = $this->authService->login($validated['Email'], $validated['Password']);
+        $result = $this->authService->login($validated['email'], $validated['password']);
         $person = $result['person'];
         $roles = $result['roles'];
         $permissions = $result['permissions'];
@@ -80,32 +80,32 @@ class AuthController extends BaseApiController
     public function register(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'Name' => ['required', 'string', 'max:100'],
-            'Email' => ['required', 'email'],
-            'Password' => ['required', 'string', 'min:6', 'max:100'],
-            'ConfirmPassword' => ['required', 'same:Password'],
-            'PhoneNumber' => ['required', 'string'],
-            'Address' => ['required', 'string'],
-            'DateOfBirth' => ['nullable', 'date'],
-            'Sex' => ['nullable', 'integer'],
-            'AvatarUrl' => ['nullable', 'string'],
-            'BankId' => ['nullable', 'string'],
-            'BankAccountNumber' => ['nullable', 'string'],
-            'BankName' => ['nullable', 'string'],
+            'name' => ['required', 'string', 'max:100'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string', 'min:6', 'max:100'],
+            'confirmPassword' => ['required', 'same:password'],
+            'phoneNumber' => ['required', 'string'],
+            'address' => ['required', 'string'],
+            'dateOfBirth' => ['nullable', 'date'],
+            'sex' => ['nullable', 'integer'],
+            'avatarUrl' => ['nullable', 'string'],
+            'bankId' => ['nullable', 'string'],
+            'bankAccountNumber' => ['nullable', 'string'],
+            'bankName' => ['nullable', 'string'],
         ]);
 
         $response = $this->authService->register([
-            'name' => $validated['Name'],
-            'email' => $validated['Email'],
-            'password' => $validated['Password'],
-            'phoneNumber' => $validated['PhoneNumber'],
-            'address' => $validated['Address'],
-            'dateOfBirth' => $validated['DateOfBirth'] ?? null,
-            'sex' => $validated['Sex'] ?? 3,
-            'avatarUrl' => $validated['AvatarUrl'] ?? null,
-            'bankId' => $validated['BankId'] ?? null,
-            'bankAccountNumber' => $validated['BankAccountNumber'] ?? null,
-            'bankName' => $validated['BankName'] ?? null,
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => $validated['password'],
+            'phoneNumber' => $validated['phoneNumber'],
+            'address' => $validated['address'],
+            'dateOfBirth' => $validated['dateOfBirth'] ?? null,
+            'sex' => $validated['sex'] ?? 3,
+            'avatarUrl' => $validated['avatarUrl'] ?? null,
+            'bankId' => $validated['bankId'] ?? null,
+            'bankAccountNumber' => $validated['bankAccountNumber'] ?? null,
+            'bankName' => $validated['bankName'] ?? null,
         ]);
 
         return response()->json($response);
@@ -114,9 +114,9 @@ class AuthController extends BaseApiController
     public function forgotPassword(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'Email' => ['required', 'email'],
+            'email' => ['required', 'email'],
         ]);
 
-        return response()->json($this->authService->forgotPassword($validated['Email']));
+        return response()->json($this->authService->forgotPassword($validated['email']));
     }
 }

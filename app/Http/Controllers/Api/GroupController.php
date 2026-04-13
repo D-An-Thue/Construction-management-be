@@ -67,15 +67,22 @@ class GroupController extends BaseApiController
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'GroupName' => ['required', 'string'],
-            'Description' => ['nullable', 'string'],
-            'Amount' => ['nullable', 'integer'],
-            'MinimumAmount' => ['nullable', 'integer'],
-            'MaximumAmount' => ['nullable', 'integer'],
-            'GroupStatus' => ['nullable', 'integer'],
+            'groupName' => ['required', 'string'],
+            'description' => ['nullable', 'string'],
+            'amount' => ['nullable', 'integer'],
+            'minimumAmount' => ['nullable', 'integer'],
+            'maximumAmount' => ['nullable', 'integer'],
+            'groupStatus' => ['nullable', 'integer'],
         ]);
 
-        $this->groupService->create($validated, $this->currentUserId() ?? 0);
+        $this->groupService->create([
+            'GroupName' => $validated['groupName'],
+            'Description' => $validated['description'] ?? null,
+            'Amount' => $validated['amount'] ?? null,
+            'MinimumAmount' => $validated['minimumAmount'] ?? null,
+            'MaximumAmount' => $validated['maximumAmount'] ?? null,
+            'GroupStatus' => $validated['groupStatus'] ?? null,
+        ], $this->currentUserId() ?? 0);
 
         return response()->json(true);
     }
@@ -84,15 +91,23 @@ class GroupController extends BaseApiController
     {
         $validated = $request->validate([
             'id' => ['required', 'integer'],
-            'GroupName' => ['required', 'string'],
-            'Description' => ['nullable', 'string'],
-            'Amount' => ['nullable', 'integer'],
-            'MinimumAmount' => ['nullable', 'integer'],
-            'MaximumAmount' => ['nullable', 'integer'],
-            'GroupStatus' => ['nullable', 'integer'],
+            'groupName' => ['required', 'string'],
+            'description' => ['nullable', 'string'],
+            'amount' => ['nullable', 'integer'],
+            'minimumAmount' => ['nullable', 'integer'],
+            'maximumAmount' => ['nullable', 'integer'],
+            'groupStatus' => ['nullable', 'integer'],
         ]);
 
-        $this->groupService->update($validated, $this->currentUserId() ?? 0);
+        $this->groupService->update([
+            'id' => $validated['id'],
+            'GroupName' => $validated['groupName'],
+            'Description' => $validated['description'] ?? null,
+            'Amount' => $validated['amount'] ?? null,
+            'MinimumAmount' => $validated['minimumAmount'] ?? null,
+            'MaximumAmount' => $validated['maximumAmount'] ?? null,
+            'GroupStatus' => $validated['groupStatus'] ?? null,
+        ], $this->currentUserId() ?? 0);
 
         return response()->json(true);
     }
@@ -100,10 +115,10 @@ class GroupController extends BaseApiController
     public function destroy(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'GroupId' => ['required', 'integer'],
+            'groupId' => ['required', 'integer'],
         ]);
 
-        $this->groupService->delete((int) $validated['GroupId'], $this->currentUserId() ?? 0);
+        $this->groupService->delete((int) $validated['groupId'], $this->currentUserId() ?? 0);
 
         return response()->json(true);
     }

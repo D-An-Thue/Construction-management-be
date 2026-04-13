@@ -25,18 +25,25 @@ class SubTaskController extends BaseApiController
     public function store(int $taskId, Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'Title' => ['required', 'string'],
-            'Description' => ['nullable', 'string'],
-            'Type' => ['required', 'integer'],
-            'Status' => ['nullable', 'integer'],
-            'Priority' => ['nullable', 'integer'],
-            'AssignToUserId' => ['nullable', 'integer'],
-            'DueDate' => ['nullable', 'date'],
+            'title' => ['required', 'string'],
+            'description' => ['nullable', 'string'],
+            'type' => ['required', 'integer'],
+            'status' => ['nullable', 'integer'],
+            'priority' => ['nullable', 'integer'],
+            'assignToUserId' => ['nullable', 'integer'],
+            'dueDate' => ['nullable', 'date'],
         ]);
 
-        $validated['TaskId'] = $taskId;
-
-        $this->subTaskService->create($validated, $this->currentUserId() ?? 0);
+        $this->subTaskService->create([
+            'TaskId' => $taskId,
+            'Title' => $validated['title'],
+            'Description' => $validated['description'] ?? null,
+            'Type' => $validated['type'],
+            'Status' => $validated['status'] ?? null,
+            'Priority' => $validated['priority'] ?? null,
+            'AssignToUserId' => $validated['assignToUserId'] ?? null,
+            'DueDate' => $validated['dueDate'] ?? null,
+        ], $this->currentUserId() ?? 0);
 
         return response()->json(true);
     }
@@ -44,19 +51,27 @@ class SubTaskController extends BaseApiController
     public function update(int $taskId, Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'Id' => ['required', 'integer'],
-            'Title' => ['required', 'string'],
-            'Description' => ['nullable', 'string'],
-            'Type' => ['required', 'integer'],
-            'Status' => ['nullable', 'integer'],
-            'Priority' => ['nullable', 'integer'],
-            'AssignToUserId' => ['nullable', 'integer'],
-            'DueDate' => ['nullable', 'date'],
+            'id' => ['required', 'integer'],
+            'title' => ['required', 'string'],
+            'description' => ['nullable', 'string'],
+            'type' => ['required', 'integer'],
+            'status' => ['nullable', 'integer'],
+            'priority' => ['nullable', 'integer'],
+            'assignToUserId' => ['nullable', 'integer'],
+            'dueDate' => ['nullable', 'date'],
         ]);
 
-        $validated['TaskId'] = $taskId;
-
-        $this->subTaskService->update($validated, $this->currentUserId() ?? 0);
+        $this->subTaskService->update([
+            'Id' => $validated['id'],
+            'TaskId' => $taskId,
+            'Title' => $validated['title'],
+            'Description' => $validated['description'] ?? null,
+            'Type' => $validated['type'],
+            'Status' => $validated['status'] ?? null,
+            'Priority' => $validated['priority'] ?? null,
+            'AssignToUserId' => $validated['assignToUserId'] ?? null,
+            'DueDate' => $validated['dueDate'] ?? null,
+        ], $this->currentUserId() ?? 0);
 
         return response()->json(true);
     }
@@ -64,16 +79,16 @@ class SubTaskController extends BaseApiController
     public function destroy(int $taskId, Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'Id' => ['required', 'integer'],
+            'id' => ['required', 'integer'],
         ]);
 
-        $subTask = SubTask::query()->notDeleted()->findOrFail((int) $validated['Id']);
+        $subTask = SubTask::query()->notDeleted()->findOrFail((int) $validated['id']);
 
         if ((int) $subTask->TaskId !== $taskId) {
             abort(404, 'Subtask not found in task.');
         }
 
-        $this->subTaskService->delete((int) $validated['Id'], $this->currentUserId() ?? 0);
+        $this->subTaskService->delete((int) $validated['id'], $this->currentUserId() ?? 0);
 
         return response()->json(true);
     }

@@ -55,7 +55,7 @@ class ApiFoundationSmokeTest extends TestCase
     public function test_compatibility_route_forgot_pasword_exists(): void
     {
         $response = $this->postJson('/api/authentications/forgot-pasword', [
-            'Email' => 'ghost@example.com',
+            'email' => 'ghost@example.com',
         ]);
 
         $response->assertOk()

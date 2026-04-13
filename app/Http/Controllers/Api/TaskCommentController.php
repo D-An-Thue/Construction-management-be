@@ -24,18 +24,21 @@ class TaskCommentController extends BaseApiController
     public function store(int $taskId, Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'Content' => ['required', 'string'],
-            'ParentCommentId' => ['nullable', 'integer'],
+            'content' => ['required', 'string'],
+            'parentCommentId' => ['nullable', 'integer'],
         ]);
 
-        $validated['TaskId'] = $taskId;
         $actorUserId = $this->currentUserId();
 
         if (! $actorUserId) {
             abort(401, 'Unauthenticated.');
         }
 
-        $this->taskCommentService->create($validated, $actorUserId);
+        $this->taskCommentService->create([
+            'TaskId' => $taskId,
+            'Content' => $validated['content'],
+            'ParentCommentId' => $validated['parentCommentId'] ?? null,
+        ], $actorUserId);
 
         return response()->json(true);
     }
@@ -43,8 +46,8 @@ class TaskCommentController extends BaseApiController
     public function update(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'Id' => ['required', 'integer'],
-            'Content' => ['required', 'string'],
+            'id' => ['required', 'integer'],
+            'content' => ['required', 'string'],
         ]);
 
         $actorUserId = $this->currentUserId();
@@ -53,7 +56,7 @@ class TaskCommentController extends BaseApiController
             abort(401, 'Unauthenticated.');
         }
 
-        $this->taskCommentService->update((int) $validated['Id'], $validated['Content'], $actorUserId);
+        $this->taskCommentService->update((int) $validated['id'], $validated['content'], $actorUserId);
 
         return response()->json(true);
     }
@@ -61,7 +64,7 @@ class TaskCommentController extends BaseApiController
     public function destroy(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'Id' => ['required', 'integer'],
+            'id' => ['required', 'integer'],
         ]);
 
         $actorUserId = $this->currentUserId();
@@ -70,7 +73,7 @@ class TaskCommentController extends BaseApiController
             abort(401, 'Unauthenticated.');
         }
 
-        $this->taskCommentService->delete((int) $validated['Id'], $actorUserId);
+        $this->taskCommentService->delete((int) $validated['id'], $actorUserId);
 
         return response()->json(true);
     }

@@ -18,7 +18,7 @@ class TaskController extends BaseApiController
 
     public function index(Request $request): JsonResponse
     {
-        $groupId = $request->query('GroupId');
+        $groupId = $request->query('groupId');
 
         if ($groupId !== null) {
             $tasks = $this->taskService->listByGroupId((int) $groupId)
@@ -82,19 +82,30 @@ class TaskController extends BaseApiController
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'TaskTitle' => ['required', 'string'],
-            'TaskDescription' => ['required', 'string'],
-            'GroupId' => ['required', 'integer'],
-            'AssignToUserId' => ['nullable', 'integer'],
-            'Priority' => ['nullable', 'integer'],
-            'ReferenceGroupUserID' => ['nullable', 'array'],
-            'AttachLink' => ['nullable', 'array'],
-            'TicketReferenceIds' => ['nullable', 'array'],
-            'Cost' => ['nullable', 'numeric'],
-            'DueDate' => ['nullable', 'date'],
+            'taskTitle' => ['required', 'string'],
+            'taskDescription' => ['required', 'string'],
+            'groupId' => ['required', 'integer'],
+            'assignToUserId' => ['nullable', 'integer'],
+            'priority' => ['nullable', 'integer'],
+            'referenceGroupUserId' => ['nullable', 'array'],
+            'attachLink' => ['nullable', 'array'],
+            'ticketReferenceIds' => ['nullable', 'array'],
+            'cost' => ['nullable', 'numeric'],
+            'dueDate' => ['nullable', 'date'],
         ]);
 
-        $this->taskService->create($validated, $this->currentUserId() ?? 0);
+        $this->taskService->create([
+            'TaskTitle' => $validated['taskTitle'],
+            'TaskDescription' => $validated['taskDescription'],
+            'GroupId' => $validated['groupId'],
+            'AssignToUserId' => $validated['assignToUserId'] ?? null,
+            'Priority' => $validated['priority'] ?? null,
+            'ReferenceGroupUserID' => $validated['referenceGroupUserId'] ?? null,
+            'AttachLink' => $validated['attachLink'] ?? null,
+            'TicketReferenceIds' => $validated['ticketReferenceIds'] ?? null,
+            'Cost' => $validated['cost'] ?? null,
+            'DueDate' => $validated['dueDate'] ?? null,
+        ], $this->currentUserId() ?? 0);
 
         return response()->json(true);
     }
@@ -102,21 +113,34 @@ class TaskController extends BaseApiController
     public function update(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'Id' => ['required', 'integer'],
-            'TaskTitle' => ['required', 'string'],
-            'TaskDescription' => ['required', 'string'],
-            'GroupId' => ['required', 'integer'],
-            'AssignToUserId' => ['nullable', 'integer'],
-            'Status' => ['nullable', 'integer'],
-            'Priority' => ['nullable', 'integer'],
-            'ReferenceGroupUserID' => ['nullable', 'array'],
-            'AttachLink' => ['nullable', 'array'],
-            'TicketReferenceIds' => ['nullable', 'array'],
-            'Cost' => ['nullable', 'numeric'],
-            'DueDate' => ['nullable', 'date'],
+            'id' => ['required', 'integer'],
+            'taskTitle' => ['required', 'string'],
+            'taskDescription' => ['required', 'string'],
+            'groupId' => ['required', 'integer'],
+            'assignToUserId' => ['nullable', 'integer'],
+            'status' => ['nullable', 'integer'],
+            'priority' => ['nullable', 'integer'],
+            'referenceGroupUserId' => ['nullable', 'array'],
+            'attachLink' => ['nullable', 'array'],
+            'ticketReferenceIds' => ['nullable', 'array'],
+            'cost' => ['nullable', 'numeric'],
+            'dueDate' => ['nullable', 'date'],
         ]);
 
-        $this->taskService->update($validated, $this->currentUserId() ?? 0);
+        $this->taskService->update([
+            'Id' => $validated['id'],
+            'TaskTitle' => $validated['taskTitle'],
+            'TaskDescription' => $validated['taskDescription'],
+            'GroupId' => $validated['groupId'],
+            'AssignToUserId' => $validated['assignToUserId'] ?? null,
+            'Status' => $validated['status'] ?? null,
+            'Priority' => $validated['priority'] ?? null,
+            'ReferenceGroupUserID' => $validated['referenceGroupUserId'] ?? null,
+            'AttachLink' => $validated['attachLink'] ?? null,
+            'TicketReferenceIds' => $validated['ticketReferenceIds'] ?? null,
+            'Cost' => $validated['cost'] ?? null,
+            'DueDate' => $validated['dueDate'] ?? null,
+        ], $this->currentUserId() ?? 0);
 
         return response()->json(true);
     }
@@ -124,10 +148,10 @@ class TaskController extends BaseApiController
     public function destroy(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'Id' => ['required', 'integer'],
+            'id' => ['required', 'integer'],
         ]);
 
-        $this->taskService->delete((int) $validated['Id'], $this->currentUserId() ?? 0);
+        $this->taskService->delete((int) $validated['id'], $this->currentUserId() ?? 0);
 
         return response()->json(true);
     }

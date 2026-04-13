@@ -27,12 +27,12 @@ class MasterDataApiTest extends TestCase
         $token = $this->makeJwt($actor->Id, ['group.create', 'group.update', 'group.view', 'group.delete']);
 
         $create = $this->postJson('/api/groups/group', [
-            'GroupName' => 'Team A',
-            'Description' => 'Desc',
-            'Amount' => 10000,
-            'MinimumAmount' => 100,
-            'MaximumAmount' => 100000,
-            'GroupStatus' => 2,
+            'groupName' => 'Team A',
+            'description' => 'Desc',
+            'amount' => 10000,
+            'minimumAmount' => 100,
+            'maximumAmount' => 100000,
+            'groupStatus' => 2,
         ], [
             'Authorization' => 'Bearer '.$token,
         ]);
@@ -55,12 +55,12 @@ class MasterDataApiTest extends TestCase
 
         $update = $this->putJson('/api/groups/group', [
             'id' => $groupId,
-            'GroupName' => 'Team A+',
-            'Description' => 'Desc2',
-            'Amount' => 12000,
-            'MinimumAmount' => 200,
-            'MaximumAmount' => 120000,
-            'GroupStatus' => 3,
+            'groupName' => 'Team A+',
+            'description' => 'Desc2',
+            'amount' => 12000,
+            'minimumAmount' => 200,
+            'maximumAmount' => 120000,
+            'groupStatus' => 3,
         ], [
             'Authorization' => 'Bearer '.$token,
         ]);
@@ -68,7 +68,7 @@ class MasterDataApiTest extends TestCase
         $update->assertOk()->assertContent('true');
 
         $delete = $this->deleteJson('/api/groups/group', [
-            'GroupId' => $groupId,
+            'groupId' => $groupId,
         ], [
             'Authorization' => 'Bearer '.$token,
         ]);
@@ -87,17 +87,17 @@ class MasterDataApiTest extends TestCase
         $token = $this->makeJwt($actor->Id, ['person.view', 'person.update']);
 
         $create = $this->postJson('/api/persons/person', [
-            'Name' => 'Person A',
-            'Sex' => 1,
-            'Email' => 'person-a@example.com',
-            'AvatarUrl' => 'https://example.com/a.png',
-            'DateOfBirth' => now()->subYears(20)->toDateString(),
-            'PhoneNumber' => '0999',
-            'Address' => 'Address A',
-            'Password' => 'secret123',
-            'BankID' => 'VCB',
-            'BankAccountNumber' => '12345',
-            'BankName' => 'Vietcombank',
+            'name' => 'Person A',
+            'sex' => 1,
+            'email' => 'person-a@example.com',
+            'avatarUrl' => 'https://example.com/a.png',
+            'dateOfBirth' => now()->subYears(20)->toDateString(),
+            'phoneNumber' => '0999',
+            'address' => 'Address A',
+            'password' => 'secret123',
+            'bankId' => 'VCB',
+            'bankAccountNumber' => '12345',
+            'bankName' => 'Vietcombank',
         ], [
             'Authorization' => 'Bearer '.$token,
         ]);
@@ -119,13 +119,13 @@ class MasterDataApiTest extends TestCase
         $detail->assertOk()->assertJsonPath('Id', $personId);
 
         $update = $this->putJson('/api/persons/person', [
-            'Id' => $personId,
-            'Name' => 'Person A+',
-            'Email' => 'person-a@example.com',
-            'PhoneNumber' => '0888',
-            'Address' => 'Address B',
-            'DateOfBirth' => now()->subYears(21)->toDateString(),
-            'ProfilePictureUrl' => 'https://example.com/b.png',
+            'id' => $personId,
+            'name' => 'Person A+',
+            'email' => 'person-a@example.com',
+            'phoneNumber' => '0888',
+            'address' => 'Address B',
+            'dateOfBirth' => now()->subYears(21)->toDateString(),
+            'profilePictureUrl' => 'https://example.com/b.png',
         ], [
             'Authorization' => 'Bearer '.$token,
         ]);
@@ -133,7 +133,7 @@ class MasterDataApiTest extends TestCase
         $update->assertOk()->assertContent('true');
 
         $delete = $this->deleteJson('/api/persons/person', [
-            'Id' => $personId,
+            'id' => $personId,
         ], [
             'Authorization' => 'Bearer '.$token,
         ]);
@@ -152,11 +152,11 @@ class MasterDataApiTest extends TestCase
         $token = $this->makeJwt($actor->Id, ['task.view']);
 
         $create = $this->postJson('/api/appsettings', [
-            'AvatarUrl' => 'https://example.com/logo.png',
-            'AppName' => 'Finance App',
-            'ContactEmail' => 'contact@example.com',
-            'DomainWebsite' => 'https://example.com',
-            'ConfigJson' => '{"theme":"dark"}',
+            'avatarUrl' => 'https://example.com/logo.png',
+            'appName' => 'Finance App',
+            'contactEmail' => 'contact@example.com',
+            'domainWebsite' => 'https://example.com',
+            'configJson' => '{"theme":"dark"}',
         ], [
             'Authorization' => 'Bearer '.$token,
         ]);
@@ -175,12 +175,12 @@ class MasterDataApiTest extends TestCase
         $id = (int) \DB::table('AppSettings')->where('AppName', 'Finance App')->value('Id');
 
         $update = $this->putJson('/api/appsettings', [
-            'Id' => $id,
-            'AvatarUrl' => 'https://example.com/logo2.png',
-            'AppName' => 'Finance App 2',
-            'ContactEmail' => 'support@example.com',
-            'DomainWebsite' => 'https://example.org',
-            'ConfigJson' => '{"theme":"light"}',
+            'id' => $id,
+            'avatarUrl' => 'https://example.com/logo2.png',
+            'appName' => 'Finance App 2',
+            'contactEmail' => 'support@example.com',
+            'domainWebsite' => 'https://example.org',
+            'configJson' => '{"theme":"light"}',
         ], [
             'Authorization' => 'Bearer '.$token,
         ]);

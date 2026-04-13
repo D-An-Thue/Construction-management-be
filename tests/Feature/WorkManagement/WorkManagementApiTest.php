@@ -34,14 +34,14 @@ class WorkManagementApiTest extends TestCase
         $token = $this->makeJwt($actor->Id, ['task.view', 'task.create', 'task.update', 'task.delete']);
 
         $createTask = $this->postJson('/api/tasks/task', [
-            'TaskTitle' => 'Prepare report',
-            'TaskDescription' => 'Monthly closing report',
-            'GroupId' => $group->Id,
-            'Priority' => 2,
-            'ReferenceGroupUserID' => [],
-            'AttachLink' => [],
-            'TicketReferenceIds' => [],
-            'Cost' => 100,
+            'taskTitle' => 'Prepare report',
+            'taskDescription' => 'Monthly closing report',
+            'groupId' => $group->Id,
+            'priority' => 2,
+            'referenceGroupUserId' => [],
+            'attachLink' => [],
+            'ticketReferenceIds' => [],
+            'cost' => 100,
         ], [
             'Authorization' => 'Bearer '.$token,
         ]);
@@ -50,18 +50,18 @@ class WorkManagementApiTest extends TestCase
 
         $taskId = (int) \DB::table('TaskCollections')->where('TaskTitle', 'Prepare report')->value('Id');
 
-        $indexTask = $this->getJson('/api/tasks/task?GroupId='.$group->Id, [
+        $indexTask = $this->getJson('/api/tasks/task?groupId='.$group->Id, [
             'Authorization' => 'Bearer '.$token,
         ]);
 
         $indexTask->assertOk()->assertJsonFragment(['TaskTitle' => 'Prepare report']);
 
         $createSubTask = $this->postJson('/api/tasks/'.$taskId.'/subtasks', [
-            'Title' => 'Collect invoices',
-            'Description' => 'Collect all invoices from group',
-            'Type' => 1,
-            'Status' => 0,
-            'Priority' => 1,
+            'title' => 'Collect invoices',
+            'description' => 'Collect all invoices from group',
+            'type' => 1,
+            'status' => 0,
+            'priority' => 1,
         ], [
             'Authorization' => 'Bearer '.$token,
         ]);
@@ -71,7 +71,7 @@ class WorkManagementApiTest extends TestCase
         $subTaskId = (int) \DB::table('SubTasks')->where('TaskId', $taskId)->value('Id');
 
         $comment = $this->postJson('/api/tasks/task/'.$taskId.'/comments', [
-            'Content' => 'Need this done by Friday',
+            'content' => 'Need this done by Friday',
         ], [
             'Authorization' => 'Bearer '.$token,
         ]);
@@ -88,16 +88,16 @@ class WorkManagementApiTest extends TestCase
             ->assertJsonFragment(['Content' => 'Need this done by Friday']);
 
         $updateTask = $this->putJson('/api/tasks/task', [
-            'Id' => $taskId,
-            'TaskTitle' => 'Prepare report updated',
-            'TaskDescription' => 'Monthly closing report updated',
-            'GroupId' => $group->Id,
-            'Status' => 1,
-            'Priority' => 3,
-            'ReferenceGroupUserID' => [],
-            'AttachLink' => [],
-            'TicketReferenceIds' => [],
-            'Cost' => 120,
+            'id' => $taskId,
+            'taskTitle' => 'Prepare report updated',
+            'taskDescription' => 'Monthly closing report updated',
+            'groupId' => $group->Id,
+            'status' => 1,
+            'priority' => 3,
+            'referenceGroupUserId' => [],
+            'attachLink' => [],
+            'ticketReferenceIds' => [],
+            'cost' => 120,
         ], [
             'Authorization' => 'Bearer '.$token,
         ]);
@@ -105,7 +105,7 @@ class WorkManagementApiTest extends TestCase
         $updateTask->assertOk()->assertContent('true');
 
         $deleteSubTask = $this->deleteJson('/api/tasks/'.$taskId.'/subtasks', [
-            'Id' => $subTaskId,
+            'id' => $subTaskId,
         ], [
             'Authorization' => 'Bearer '.$token,
         ]);
@@ -113,7 +113,7 @@ class WorkManagementApiTest extends TestCase
         $deleteSubTask->assertOk()->assertContent('true');
 
         $deleteTask = $this->deleteJson('/api/tasks/task', [
-            'Id' => $taskId,
+            'id' => $taskId,
         ], [
             'Authorization' => 'Bearer '.$token,
         ]);
@@ -155,13 +155,13 @@ class WorkManagementApiTest extends TestCase
         ]);
 
         $createTicket = $this->postJson('/api/tickets/ticket', [
-            'GroupId' => $group->Id,
-            'Title' => 'Request reimbursement',
-            'Description' => 'Travel expenses',
-            'AssignToUserID' => $membership->Id,
-            'Priority' => 2,
-            'TicketType' => 1,
-            'Amount' => 500,
+            'groupId' => $group->Id,
+            'title' => 'Request reimbursement',
+            'description' => 'Travel expenses',
+            'assignToUserId' => $membership->Id,
+            'priority' => 2,
+            'ticketType' => 1,
+            'amount' => 500,
         ], [
             'Authorization' => 'Bearer '.$token,
         ]);
@@ -171,8 +171,8 @@ class WorkManagementApiTest extends TestCase
         $ticketId = (int) \DB::table('Tickets')->where('Title', 'Request reimbursement')->value('Id');
 
         $approve = $this->putJson('/api/tickets/approve', [
-            'TicketId' => $ticketId,
-            'Status' => 1,
+            'ticketId' => $ticketId,
+            'status' => 1,
         ], [
             'Authorization' => 'Bearer '.$token,
         ]);
@@ -194,9 +194,9 @@ class WorkManagementApiTest extends TestCase
         $transaction->assertOk()->assertJsonPath('id', '1001');
 
         $createProduct = $this->postJson('/api/products/product', [
-            'ProductCode' => 'PR-01',
-            'ProductName' => 'Product A',
-            'UnitName' => 'Box',
+            'productCode' => 'PR-01',
+            'productName' => 'Product A',
+            'unitName' => 'Box',
         ], [
             'Authorization' => 'Bearer '.$token,
         ]);
@@ -212,10 +212,10 @@ class WorkManagementApiTest extends TestCase
         $showProduct->assertOk()->assertJsonPath('ProductName', 'Product A');
 
         $updateProduct = $this->putJson('/api/products/product', [
-            'Id' => $productId,
-            'ProductCode' => 'PR-01',
-            'ProductName' => 'Product A+',
-            'UnitName' => 'Pack',
+            'id' => $productId,
+            'productCode' => 'PR-01',
+            'productName' => 'Product A+',
+            'unitName' => 'Pack',
         ], [
             'Authorization' => 'Bearer '.$token,
         ]);
@@ -223,7 +223,7 @@ class WorkManagementApiTest extends TestCase
         $updateProduct->assertOk()->assertContent('true');
 
         $deleteProduct = $this->deleteJson('/api/products/product', [
-            'Id' => $productId,
+            'id' => $productId,
         ], [
             'Authorization' => 'Bearer '.$token,
         ]);

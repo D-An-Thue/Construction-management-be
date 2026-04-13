@@ -40,14 +40,20 @@ class AppSettingController extends BaseApiController
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'AvatarUrl' => ['nullable', 'string'],
-            'AppName' => ['required', 'string'],
-            'ContactEmail' => ['nullable', 'string'],
-            'DomainWebsite' => ['nullable', 'string'],
-            'ConfigJson' => ['nullable', 'string'],
+            'avatarUrl' => ['nullable', 'string'],
+            'appName' => ['required', 'string'],
+            'contactEmail' => ['nullable', 'string'],
+            'domainWebsite' => ['nullable', 'string'],
+            'configJson' => ['nullable', 'string'],
         ]);
 
-        $result = $this->appSettingService->create($validated, $this->currentUserId() ?? 0);
+        $result = $this->appSettingService->create([
+            'AvatarUrl' => $validated['avatarUrl'] ?? null,
+            'AppName' => $validated['appName'],
+            'ContactEmail' => $validated['contactEmail'] ?? null,
+            'DomainWebsite' => $validated['domainWebsite'] ?? null,
+            'ConfigJson' => $validated['configJson'] ?? null,
+        ], $this->currentUserId() ?? 0);
 
         return response()->json($result);
     }
@@ -55,15 +61,22 @@ class AppSettingController extends BaseApiController
     public function update(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'Id' => ['required', 'integer'],
-            'AvatarUrl' => ['nullable', 'string'],
-            'AppName' => ['required', 'string'],
-            'ContactEmail' => ['nullable', 'string'],
-            'DomainWebsite' => ['nullable', 'string'],
-            'ConfigJson' => ['nullable', 'string'],
+            'id' => ['required', 'integer'],
+            'avatarUrl' => ['nullable', 'string'],
+            'appName' => ['required', 'string'],
+            'contactEmail' => ['nullable', 'string'],
+            'domainWebsite' => ['nullable', 'string'],
+            'configJson' => ['nullable', 'string'],
         ]);
 
-        $result = $this->appSettingService->update($validated, $this->currentUserId() ?? 0);
+        $result = $this->appSettingService->update([
+            'Id' => $validated['id'],
+            'AvatarUrl' => $validated['avatarUrl'] ?? null,
+            'AppName' => $validated['appName'],
+            'ContactEmail' => $validated['contactEmail'] ?? null,
+            'DomainWebsite' => $validated['domainWebsite'] ?? null,
+            'ConfigJson' => $validated['configJson'] ?? null,
+        ], $this->currentUserId() ?? 0);
 
         return response()->json($result);
     }

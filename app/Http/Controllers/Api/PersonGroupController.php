@@ -15,15 +15,22 @@ class PersonGroupController extends BaseApiController
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'GroupId' => ['required', 'integer'],
-            'PersonId' => ['required', 'integer'],
-            'NickName' => ['nullable', 'string'],
-            'JoinDate' => ['nullable', 'date'],
-            'IsAdmin' => ['nullable', 'boolean'],
-            'JoinEnums' => ['nullable', 'integer'],
+            'groupId' => ['required', 'integer'],
+            'personId' => ['required', 'integer'],
+            'nickName' => ['nullable', 'string'],
+            'joinDate' => ['nullable', 'date'],
+            'isAdmin' => ['nullable', 'boolean'],
+            'joinEnums' => ['nullable', 'integer'],
         ]);
 
-        $this->personGroupService->create($validated, $this->currentUserId() ?? 0);
+        $this->personGroupService->create([
+            'GroupId' => $validated['groupId'],
+            'PersonId' => $validated['personId'],
+            'NickName' => $validated['nickName'] ?? null,
+            'JoinDate' => $validated['joinDate'] ?? null,
+            'IsAdmin' => $validated['isAdmin'] ?? null,
+            'JoinEnums' => $validated['joinEnums'] ?? null,
+        ], $this->currentUserId() ?? 0);
 
         return response()->json(true);
     }
@@ -31,12 +38,16 @@ class PersonGroupController extends BaseApiController
     public function update(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'Id' => ['required', 'integer'],
-            'NickName' => ['nullable', 'string'],
-            'JoinEnums' => ['nullable', 'integer'],
+            'id' => ['required', 'integer'],
+            'nickName' => ['nullable', 'string'],
+            'joinEnums' => ['nullable', 'integer'],
         ]);
 
-        $this->personGroupService->update($validated, $this->currentUserId() ?? 0);
+        $this->personGroupService->update([
+            'Id' => $validated['id'],
+            'NickName' => $validated['nickName'] ?? null,
+            'JoinEnums' => $validated['joinEnums'] ?? null,
+        ], $this->currentUserId() ?? 0);
 
         return response()->json(true);
     }
@@ -44,10 +55,10 @@ class PersonGroupController extends BaseApiController
     public function destroy(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'Id' => ['required', 'integer'],
+            'id' => ['required', 'integer'],
         ]);
 
-        $this->personGroupService->delete((int) $validated['Id'], $this->currentUserId() ?? 0);
+        $this->personGroupService->delete((int) $validated['id'], $this->currentUserId() ?? 0);
 
         return response()->json(true);
     }
@@ -55,11 +66,11 @@ class PersonGroupController extends BaseApiController
     public function setAdmin(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'Id' => ['required', 'integer'],
-            'IsAdmin' => ['required', 'boolean'],
+            'id' => ['required', 'integer'],
+            'isAdmin' => ['required', 'boolean'],
         ]);
 
-        $this->personGroupService->setAdmin((int) $validated['Id'], (bool) $validated['IsAdmin'], $this->currentUserId() ?? 0);
+        $this->personGroupService->setAdmin((int) $validated['id'], (bool) $validated['isAdmin'], $this->currentUserId() ?? 0);
 
         return response()->json(true);
     }
@@ -67,11 +78,11 @@ class PersonGroupController extends BaseApiController
     public function setStatus(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'Id' => ['required', 'integer'],
-            'JoinEnums' => ['required', 'integer'],
+            'id' => ['required', 'integer'],
+            'joinEnums' => ['required', 'integer'],
         ]);
 
-        $this->personGroupService->setStatus((int) $validated['Id'], (int) $validated['JoinEnums'], $this->currentUserId() ?? 0);
+        $this->personGroupService->setStatus((int) $validated['id'], (int) $validated['joinEnums'], $this->currentUserId() ?? 0);
 
         return response()->json(true);
     }

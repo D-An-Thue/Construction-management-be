@@ -84,8 +84,8 @@ class AuthFlowTest extends TestCase
         ]);
 
         $response = $this->postJson('/api/authentications/login', [
-            'Email' => 'tester@example.com',
-            'Password' => 'secret123',
+            'email' => 'tester@example.com',
+            'password' => 'secret123',
         ]);
 
         $response->assertOk()
@@ -106,17 +106,17 @@ class AuthFlowTest extends TestCase
     public function test_register_creates_person_record(): void
     {
         $response = $this->postJson('/api/authentications/register', [
-            'Name' => 'Register User',
-            'Email' => 'register@example.com',
-            'Password' => 'secret123',
-            'ConfirmPassword' => 'secret123',
-            'PhoneNumber' => '0123456789',
-            'Address' => 'HCM',
-            'DateOfBirth' => now()->subYears(22)->toDateString(),
-            'Sex' => 1,
-            'BankId' => 'ACB',
-            'BankAccountNumber' => '12345',
-            'BankName' => 'ACB',
+            'name' => 'Register User',
+            'email' => 'register@example.com',
+            'password' => 'secret123',
+            'confirmPassword' => 'secret123',
+            'phoneNumber' => '0123456789',
+            'address' => 'HCM',
+            'dateOfBirth' => now()->subYears(22)->toDateString(),
+            'sex' => 1,
+            'bankId' => 'ACB',
+            'bankAccountNumber' => '12345',
+            'bankName' => 'ACB',
         ]);
 
         $response->assertOk()

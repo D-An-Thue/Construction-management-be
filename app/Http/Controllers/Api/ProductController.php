@@ -31,12 +31,16 @@ class ProductController extends BaseApiController
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'ProductCode' => ['required', 'string'],
-            'ProductName' => ['required', 'string'],
-            'UnitName' => ['nullable', 'string'],
+            'productCode' => ['required', 'string'],
+            'productName' => ['required', 'string'],
+            'unitName' => ['nullable', 'string'],
         ]);
 
-        $this->productService->create($validated, $this->currentUserId() ?? 0);
+        $this->productService->create([
+            'ProductCode' => $validated['productCode'],
+            'ProductName' => $validated['productName'],
+            'UnitName' => $validated['unitName'] ?? null,
+        ], $this->currentUserId() ?? 0);
 
         return response()->json(true);
     }
@@ -44,13 +48,18 @@ class ProductController extends BaseApiController
     public function update(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'Id' => ['required', 'integer'],
-            'ProductCode' => ['required', 'string'],
-            'ProductName' => ['required', 'string'],
-            'UnitName' => ['nullable', 'string'],
+            'id' => ['required', 'integer'],
+            'productCode' => ['required', 'string'],
+            'productName' => ['required', 'string'],
+            'unitName' => ['nullable', 'string'],
         ]);
 
-        $this->productService->update($validated, $this->currentUserId() ?? 0);
+        $this->productService->update([
+            'Id' => $validated['id'],
+            'ProductCode' => $validated['productCode'],
+            'ProductName' => $validated['productName'],
+            'UnitName' => $validated['unitName'] ?? null,
+        ], $this->currentUserId() ?? 0);
 
         return response()->json(true);
     }
@@ -58,10 +67,10 @@ class ProductController extends BaseApiController
     public function destroy(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'Id' => ['required', 'integer'],
+            'id' => ['required', 'integer'],
         ]);
 
-        $this->productService->delete((int) $validated['Id'], $this->currentUserId() ?? 0);
+        $this->productService->delete((int) $validated['id'], $this->currentUserId() ?? 0);
 
         return response()->json(true);
     }

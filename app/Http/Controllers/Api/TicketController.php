@@ -31,16 +31,24 @@ class TicketController extends BaseApiController
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'GroupId' => ['required', 'integer'],
-            'Title' => ['required', 'string'],
-            'Description' => ['nullable', 'string'],
-            'AssignToUserID' => ['nullable', 'integer'],
-            'Priority' => ['nullable', 'integer'],
-            'TicketType' => ['nullable', 'integer'],
-            'Amount' => ['nullable', 'numeric'],
+            'groupId' => ['required', 'integer'],
+            'title' => ['required', 'string'],
+            'description' => ['nullable', 'string'],
+            'assignToUserId' => ['nullable', 'integer'],
+            'priority' => ['nullable', 'integer'],
+            'ticketType' => ['nullable', 'integer'],
+            'amount' => ['nullable', 'numeric'],
         ]);
 
-        $this->ticketService->create($validated, $this->currentUserId() ?? 0);
+        $this->ticketService->create([
+            'GroupId' => $validated['groupId'],
+            'Title' => $validated['title'],
+            'Description' => $validated['description'] ?? null,
+            'AssignToUserID' => $validated['assignToUserId'] ?? null,
+            'Priority' => $validated['priority'] ?? null,
+            'TicketType' => $validated['ticketType'] ?? null,
+            'Amount' => $validated['amount'] ?? null,
+        ], $this->currentUserId() ?? 0);
 
         return response()->json(true);
     }
@@ -48,19 +56,30 @@ class TicketController extends BaseApiController
     public function update(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'Id' => ['required', 'integer'],
-            'GroupId' => ['required', 'integer'],
-            'Title' => ['required', 'string'],
-            'Description' => ['nullable', 'string'],
-            'ApproveForUserId' => ['nullable', 'integer'],
-            'AssignToUserID' => ['nullable', 'integer'],
-            'Status' => ['nullable', 'integer'],
-            'Priority' => ['nullable', 'integer'],
-            'TicketType' => ['nullable', 'integer'],
-            'Amount' => ['nullable', 'numeric'],
+            'id' => ['required', 'integer'],
+            'groupId' => ['required', 'integer'],
+            'title' => ['required', 'string'],
+            'description' => ['nullable', 'string'],
+            'approveForUserId' => ['nullable', 'integer'],
+            'assignToUserId' => ['nullable', 'integer'],
+            'status' => ['nullable', 'integer'],
+            'priority' => ['nullable', 'integer'],
+            'ticketType' => ['nullable', 'integer'],
+            'amount' => ['nullable', 'numeric'],
         ]);
 
-        $this->ticketService->update($validated, $this->currentUserId() ?? 0);
+        $this->ticketService->update([
+            'Id' => $validated['id'],
+            'GroupId' => $validated['groupId'],
+            'Title' => $validated['title'],
+            'Description' => $validated['description'] ?? null,
+            'ApproveForUserId' => $validated['approveForUserId'] ?? null,
+            'AssignToUserID' => $validated['assignToUserId'] ?? null,
+            'Status' => $validated['status'] ?? null,
+            'Priority' => $validated['priority'] ?? null,
+            'TicketType' => $validated['ticketType'] ?? null,
+            'Amount' => $validated['amount'] ?? null,
+        ], $this->currentUserId() ?? 0);
 
         return response()->json(true);
     }
@@ -68,11 +87,11 @@ class TicketController extends BaseApiController
     public function approve(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'TicketId' => ['required', 'integer'],
-            'Status' => ['required', 'integer'],
+            'ticketId' => ['required', 'integer'],
+            'status' => ['required', 'integer'],
         ]);
 
-        $this->ticketService->approve((int) $validated['TicketId'], (int) $validated['Status'], $this->currentUserId() ?? 0);
+        $this->ticketService->approve((int) $validated['ticketId'], (int) $validated['status'], $this->currentUserId() ?? 0);
 
         return response()->json(true);
     }
@@ -80,10 +99,10 @@ class TicketController extends BaseApiController
     public function destroy(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'Id' => ['required', 'integer'],
+            'id' => ['required', 'integer'],
         ]);
 
-        $this->ticketService->delete((int) $validated['Id'], $this->currentUserId() ?? 0);
+        $this->ticketService->delete((int) $validated['id'], $this->currentUserId() ?? 0);
 
         return response()->json(true);
     }
