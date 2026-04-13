@@ -26,7 +26,7 @@ Route::get('health', function () {
 
 Route::prefix('authentications')->group(function () {
     Route::post('login', [AuthController::class, 'login']);
-    Route::post('register', [AuthController::class, 'register']);
+    Route::middleware('jwt')->post('register', [AuthController::class, 'register']);
     Route::post('forgot-pasword', [AuthController::class, 'forgotPassword']);
 });
 
