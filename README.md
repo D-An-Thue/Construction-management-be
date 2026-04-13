@@ -121,7 +121,3 @@ php artisan test
 
 ### JWT lỗi chữ ký
 - Đảm bảo `JWT_SIGNATURE` có giá trị và đồng nhất giữa môi trường chạy API và client
-
----
-
-Nếu bạn muốn, mình có thể viết thêm phần **Docker setup** hoặc **Postman collection quick start** ngay trong README này.
