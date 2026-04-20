@@ -32,7 +32,7 @@ class PersonGroupController extends BaseApiController
             'JoinEnums' => $validated['joinEnums'] ?? null,
         ], $this->currentUserId() ?? 0);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function update(Request $request): JsonResponse
@@ -49,7 +49,7 @@ class PersonGroupController extends BaseApiController
             'JoinEnums' => $validated['joinEnums'] ?? null,
         ], $this->currentUserId() ?? 0);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function destroy(Request $request): JsonResponse
@@ -60,7 +60,7 @@ class PersonGroupController extends BaseApiController
 
         $this->personGroupService->delete((int) $validated['id'], $this->currentUserId() ?? 0);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function setAdmin(Request $request): JsonResponse
@@ -72,7 +72,7 @@ class PersonGroupController extends BaseApiController
 
         $this->personGroupService->setAdmin((int) $validated['id'], (bool) $validated['isAdmin'], $this->currentUserId() ?? 0);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function setStatus(Request $request): JsonResponse
@@ -84,6 +84,6 @@ class PersonGroupController extends BaseApiController
 
         $this->personGroupService->setStatus((int) $validated['id'], (int) $validated['joinEnums'], $this->currentUserId() ?? 0);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 }

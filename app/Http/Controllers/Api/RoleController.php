@@ -31,7 +31,7 @@ class RoleController extends BaseApiController
             ];
         })->values();
 
-        return response()->json($roles);
+        return $this->jsonResponse($roles);
     }
 
     public function show(int $roleId): JsonResponse
@@ -42,7 +42,7 @@ class RoleController extends BaseApiController
             throw new NotFoundHttpException('Không tìm thấy vai trò.');
         }
 
-        return response()->json([
+        return $this->jsonResponse([
             'Id' => $role->Id,
             'RoleName' => $role->RoleName,
             'Description' => $role->Description,
@@ -78,7 +78,7 @@ class RoleController extends BaseApiController
         $name = is_array($claims) ? (string) ($claims['name'] ?? '') : '';
         $email = is_array($claims) ? (string) ($claims['email'] ?? '') : '';
 
-        return response()->json([
+        return $this->jsonResponse([
             'Id' => $userId,
             'Name' => $name,
             'Email' => $email,
@@ -99,7 +99,7 @@ class RoleController extends BaseApiController
             ])
             ->values();
 
-        return response()->json($permissions);
+        return $this->jsonResponse($permissions);
     }
 
     public function store(Request $request): JsonResponse
@@ -117,7 +117,7 @@ class RoleController extends BaseApiController
             'actorId' => $actorId,
         ]);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function update(Request $request): JsonResponse
@@ -136,7 +136,7 @@ class RoleController extends BaseApiController
             'actorId' => $actorId,
         ]);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function destroy(int $roleId): JsonResponse
@@ -144,7 +144,7 @@ class RoleController extends BaseApiController
         $actorId = $this->currentUserId() ?? 0;
         $this->roleService->deleteRole($roleId, $actorId);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function assignPermission(int $roleId, Request $request): JsonResponse
@@ -155,14 +155,14 @@ class RoleController extends BaseApiController
 
         $this->roleService->assignPermission($roleId, (int) $validated['permissionId']);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function removePermission(int $roleId, int $permissionId): JsonResponse
     {
         $this->roleService->removePermission($roleId, $permissionId);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function assignUser(int $roleId, Request $request): JsonResponse
@@ -173,19 +173,19 @@ class RoleController extends BaseApiController
 
         $this->roleService->assignUser($roleId, (int) $validated['personId']);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function removeUser(int $roleId, int $personId): JsonResponse
     {
         $this->roleService->removeUser($roleId, $personId);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function seed(): JsonResponse
     {
-        return response()->json(
+        return $this->jsonResponse(
             $this->roleService->seedPermissionsAndRoles($this->currentUserId())
         );
     }

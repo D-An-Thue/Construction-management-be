@@ -41,7 +41,7 @@ class AuthController extends BaseApiController
             'permission' => $permissions,
         ]);
 
-        return response()->json([
+        return $this->jsonResponse([
             'Token' => $token,
             'RefreshToken' => (string) \Illuminate\Support\Str::uuid(),
             'UserId' => $person->Id,
@@ -63,17 +63,17 @@ class AuthController extends BaseApiController
         $result = $this->authService->me($userId);
         $person = $result['person'];
 
-        return response()->json([
-            'Id' => $person->Id,
-            'Name' => $person->Name ?? '',
-            'Email' => $person->Email ?? '',
-            'AvatarUrl' => $person->AvatarUrl ?? '',
-            'PhoneNumber' => $person->PhoneNumber ?? '',
-            'Address' => $person->Address ?? '',
-            'DateOfBirth' => $person->DateOfBirth,
-            'Sex' => (int) $person->Sex,
-            'Roles' => $result['roles'],
-            'Permissions' => $result['permissions'],
+        return $this->jsonResponse([
+            'id' => $person->Id,
+            'name' => $person->Name ?? '',
+            'email' => $person->Email ?? '',
+            'avatarUrl' => $person->AvatarUrl ?? '',
+            'phoneNumber' => $person->PhoneNumber ?? '',
+            'address' => $person->Address ?? '',
+            'dateOfBirth' => $person->DateOfBirth,
+            'sex' => (int) $person->Sex,
+            'roles' => $result['roles'],
+            'permissions' => $result['permissions'],
         ]);
     }
 
@@ -108,7 +108,7 @@ class AuthController extends BaseApiController
             'bankName' => $validated['bankName'] ?? null,
         ]);
 
-        return response()->json($response);
+        return $this->jsonResponse($response);
     }
 
     public function forgotPassword(Request $request): JsonResponse
@@ -117,6 +117,6 @@ class AuthController extends BaseApiController
             'email' => ['required', 'email'],
         ]);
 
-        return response()->json($this->authService->forgotPassword($validated['email']));
+        return $this->jsonResponse($this->authService->forgotPassword($validated['email']));
     }
 }

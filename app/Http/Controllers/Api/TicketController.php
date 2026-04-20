@@ -18,14 +18,14 @@ class TicketController extends BaseApiController
             ->map(fn ($ticket) => $this->mapTicket($ticket))
             ->values();
 
-        return response()->json($tickets);
+        return $this->jsonResponse($tickets);
     }
 
     public function show(int $id): JsonResponse
     {
         $ticket = $this->ticketService->detail($id);
 
-        return response()->json($this->mapTicket($ticket));
+        return $this->jsonResponse($this->mapTicket($ticket));
     }
 
     public function store(Request $request): JsonResponse
@@ -50,7 +50,7 @@ class TicketController extends BaseApiController
             'Amount' => $validated['amount'] ?? null,
         ], $this->currentUserId() ?? 0);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function update(Request $request): JsonResponse
@@ -81,7 +81,7 @@ class TicketController extends BaseApiController
             'Amount' => $validated['amount'] ?? null,
         ], $this->currentUserId() ?? 0);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function approve(Request $request): JsonResponse
@@ -93,7 +93,7 @@ class TicketController extends BaseApiController
 
         $this->ticketService->approve((int) $validated['ticketId'], (int) $validated['status'], $this->currentUserId() ?? 0);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function destroy(Request $request): JsonResponse
@@ -104,7 +104,7 @@ class TicketController extends BaseApiController
 
         $this->ticketService->delete((int) $validated['id'], $this->currentUserId() ?? 0);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     private function mapTicket(object $ticket): array

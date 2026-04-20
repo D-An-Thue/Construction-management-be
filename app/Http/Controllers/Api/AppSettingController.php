@@ -17,10 +17,10 @@ class AppSettingController extends BaseApiController
         $setting = $this->appSettingService->current();
 
         if (! $setting) {
-            return response()->json(null, 204);
+            return $this->jsonResponse(null, 204);
         }
 
-        return response()->json([
+        return $this->jsonResponse([
             'Id' => $setting->Id,
             'AvatarUrl' => $setting->AvatarUrl,
             'AppName' => $setting->AppName,
@@ -55,7 +55,7 @@ class AppSettingController extends BaseApiController
             'ConfigJson' => $validated['configJson'] ?? null,
         ], $this->currentUserId() ?? 0);
 
-        return response()->json($result);
+        return $this->jsonResponse($result);
     }
 
     public function update(Request $request): JsonResponse
@@ -78,6 +78,6 @@ class AppSettingController extends BaseApiController
             'ConfigJson' => $validated['configJson'] ?? null,
         ], $this->currentUserId() ?? 0);
 
-        return response()->json($result);
+        return $this->jsonResponse($result);
     }
 }

@@ -36,14 +36,14 @@ class GroupController extends BaseApiController
             ];
         })->values();
 
-        return response()->json($payload);
+        return $this->jsonResponse($payload);
     }
 
     public function show(int $idGroups): JsonResponse
     {
         $group = $this->groupService->detail($idGroups);
 
-        return response()->json([
+        return $this->jsonResponse([
             'Id' => $group->Id,
             'CreatedAt' => $group->CreatedAt,
             'UpdatedAt' => $group->UpdatedAt,
@@ -84,7 +84,7 @@ class GroupController extends BaseApiController
             'GroupStatus' => $validated['groupStatus'] ?? null,
         ], $this->currentUserId() ?? 0);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function update(Request $request): JsonResponse
@@ -109,7 +109,7 @@ class GroupController extends BaseApiController
             'GroupStatus' => $validated['groupStatus'] ?? null,
         ], $this->currentUserId() ?? 0);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function destroy(Request $request): JsonResponse
@@ -120,6 +120,6 @@ class GroupController extends BaseApiController
 
         $this->groupService->delete((int) $validated['groupId'], $this->currentUserId() ?? 0);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 }

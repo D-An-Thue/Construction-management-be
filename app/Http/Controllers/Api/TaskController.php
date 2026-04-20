@@ -25,7 +25,7 @@ class TaskController extends BaseApiController
             ->map(fn ($task) => $this->mapTask($task))
             ->values();
 
-        return response()->json($tasks);
+        return $this->jsonResponse($tasks);
     }
 
     public function show(int $id): JsonResponse
@@ -65,7 +65,7 @@ class TaskController extends BaseApiController
             ])
             ->values();
 
-        return response()->json($payload);
+        return $this->jsonResponse($payload);
     }
 
     public function store(Request $request): JsonResponse
@@ -96,7 +96,7 @@ class TaskController extends BaseApiController
             'DueDate' => $validated['dueDate'] ?? null,
         ], $this->currentUserId() ?? 0);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function update(Request $request): JsonResponse
@@ -131,7 +131,7 @@ class TaskController extends BaseApiController
             'DueDate' => $validated['dueDate'] ?? null,
         ], $this->currentUserId() ?? 0);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function destroy(Request $request): JsonResponse
@@ -142,7 +142,7 @@ class TaskController extends BaseApiController
 
         $this->taskService->delete((int) $validated['id'], $this->currentUserId() ?? 0);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     private function mapTask(object $task, bool $withDetails = false): array

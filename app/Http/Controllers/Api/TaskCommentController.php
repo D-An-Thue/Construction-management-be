@@ -18,7 +18,7 @@ class TaskCommentController extends BaseApiController
             ->map(fn ($comment) => $this->mapComment($comment))
             ->values();
 
-        return response()->json($comments);
+        return $this->jsonResponse($comments);
     }
 
     public function store(int $taskId, Request $request): JsonResponse
@@ -40,7 +40,7 @@ class TaskCommentController extends BaseApiController
             'ParentCommentId' => $validated['parentCommentId'] ?? null,
         ], $actorUserId);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function update(Request $request): JsonResponse
@@ -58,7 +58,7 @@ class TaskCommentController extends BaseApiController
 
         $this->taskCommentService->update((int) $validated['id'], $validated['content'], $actorUserId);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function destroy(Request $request): JsonResponse
@@ -75,7 +75,7 @@ class TaskCommentController extends BaseApiController
 
         $this->taskCommentService->delete((int) $validated['id'], $actorUserId);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     private function mapComment(object $comment): array

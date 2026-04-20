@@ -19,7 +19,7 @@ class SubTaskController extends BaseApiController
             ->map(fn ($subTask) => $this->mapSubTask($subTask))
             ->values();
 
-        return response()->json($subTasks);
+        return $this->jsonResponse($subTasks);
     }
 
     public function store(int $taskId, Request $request): JsonResponse
@@ -45,7 +45,7 @@ class SubTaskController extends BaseApiController
             'DueDate' => $validated['dueDate'] ?? null,
         ], $this->currentUserId() ?? 0);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function update(int $taskId, Request $request): JsonResponse
@@ -73,7 +73,7 @@ class SubTaskController extends BaseApiController
             'DueDate' => $validated['dueDate'] ?? null,
         ], $this->currentUserId() ?? 0);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function destroy(int $taskId, Request $request): JsonResponse
@@ -90,7 +90,7 @@ class SubTaskController extends BaseApiController
 
         $this->subTaskService->delete((int) $validated['id'], $this->currentUserId() ?? 0);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     private function mapSubTask(object $subTask): array

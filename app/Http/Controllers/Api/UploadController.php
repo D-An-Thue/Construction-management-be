@@ -19,7 +19,7 @@ class UploadController extends BaseApiController
             'files.*' => ['required', 'file', 'max:30720'],
         ]);
 
-        return response()->json(
+        return $this->jsonResponse(
             $this->uploadService->uploadMany($validated['files'], $this->currentUserId() ?? 0)
         );
     }

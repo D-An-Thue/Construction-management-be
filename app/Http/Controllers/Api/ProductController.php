@@ -19,12 +19,12 @@ class ProductController extends BaseApiController
             ->map(fn ($product) => $this->mapProduct($product))
             ->values();
 
-        return response()->json($products);
+        return $this->jsonResponse($products);
     }
 
     public function show(int $id): JsonResponse
     {
-        return response()->json(
+        return $this->jsonResponse(
             $this->mapProduct($this->productService->detail($id))
         );
     }
@@ -43,7 +43,7 @@ class ProductController extends BaseApiController
             'UnitName' => $validated['unitName'] ?? null,
         ], $this->currentUserId() ?? 0);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function update(Request $request): JsonResponse
@@ -62,7 +62,7 @@ class ProductController extends BaseApiController
             'UnitName' => $validated['unitName'] ?? null,
         ], $this->currentUserId() ?? 0);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function destroy(Request $request): JsonResponse
@@ -73,7 +73,7 @@ class ProductController extends BaseApiController
 
         $this->productService->delete((int) $validated['id'], $this->currentUserId() ?? 0);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function import(Request $request): JsonResponse
@@ -82,7 +82,7 @@ class ProductController extends BaseApiController
             'file' => ['required', 'file', 'max:10240', 'mimes:csv'],
         ]);
 
-        return response()->json(
+        return $this->jsonResponse(
             $this->productService->importExcel($validated['file'], $this->currentUserId() ?? 0)
         );
     }

@@ -13,7 +13,7 @@ class TransactionController extends BaseApiController
 
     public function show(int|string $id): JsonResponse
     {
-        return response()->json(
+        return $this->jsonResponse(
             $this->transactionService->detailByTransactionId((string) $id)
         );
     }

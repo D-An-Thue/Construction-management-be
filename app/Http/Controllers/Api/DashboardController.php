@@ -13,7 +13,7 @@ class DashboardController extends BaseApiController
 
     public function summary(): JsonResponse
     {
-        return response()->json(
+        return $this->jsonResponse(
             $this->dashboardService->summaryByUser($this->currentUserId() ?? 0)
         );
     }
@@ -25,7 +25,7 @@ class DashboardController extends BaseApiController
             'toDate' => ['required', 'date'],
         ]);
 
-        return response()->json(
+        return $this->jsonResponse(
             $this->dashboardService->ticketStatsByDateRange($validated['fromDate'], $validated['toDate'])
         );
     }
@@ -37,7 +37,7 @@ class DashboardController extends BaseApiController
             'toDate' => ['required', 'date'],
         ]);
 
-        return response()->json(
+        return $this->jsonResponse(
             $this->dashboardService->taskStatsByDateRange($validated['fromDate'], $validated['toDate'])
         );
     }

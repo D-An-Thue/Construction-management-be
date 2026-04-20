@@ -30,14 +30,14 @@ class PersonController extends BaseApiController
             ];
         })->values();
 
-        return response()->json($people);
+        return $this->jsonResponse($people);
     }
 
     public function show(int $idPerson): JsonResponse
     {
         $person = $this->personService->findById($idPerson);
 
-        return response()->json([
+        return $this->jsonResponse([
             'Id' => $person->Id,
             'Name' => $person->Name,
             'Sex' => (int) $person->Sex,
@@ -82,7 +82,7 @@ class PersonController extends BaseApiController
             'BankName' => $validated['bankName'] ?? null,
         ], $this->currentUserId() ?? 0);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function update(Request $request): JsonResponse
@@ -107,7 +107,7 @@ class PersonController extends BaseApiController
             'ProfilePictureUrl' => $validated['profilePictureUrl'] ?? null,
         ], $this->currentUserId() ?? 0);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 
     public function destroy(Request $request): JsonResponse
@@ -118,6 +118,6 @@ class PersonController extends BaseApiController
 
         $this->personService->delete((int) $validated['id'], $this->currentUserId() ?? 0);
 
-        return response()->json(true);
+        return $this->jsonResponse(true);
     }
 }
