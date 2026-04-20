@@ -44,6 +44,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('Uploads');
         Schema::dropIfExists('Transactions');
-        Schema::dropIfExists('Products');
     }
 };

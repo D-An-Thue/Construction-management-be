@@ -20,15 +20,25 @@ class DashboardController extends BaseApiController
 
     public function ticketStats(): JsonResponse
     {
-        $summary = $this->dashboardService->summaryByUser($this->currentUserId() ?? 0);
+        $validated = request()->validate([
+            'fromDate' => ['required', 'date'],
+            'toDate' => ['required', 'date'],
+        ]);
 
-        return response()->json($summary['Tickets']);
+        return response()->json(
+            $this->dashboardService->ticketStatsByDateRange($validated['fromDate'], $validated['toDate'])
+        );
     }
 
     public function taskStats(): JsonResponse
     {
+        $validated = request()->validate([
+            'fromDate' => ['required', 'date'],
+            'toDate' => ['required', 'date'],
+        ]);
+
         return response()->json(
-            $this->dashboardService->taskStatsByUser($this->currentUserId() ?? 0)
+            $this->dashboardService->taskStatsByDateRange($validated['fromDate'], $validated['toDate'])
         );
     }
 }

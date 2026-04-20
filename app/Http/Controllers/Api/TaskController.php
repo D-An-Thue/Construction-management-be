@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\TaskCollection;
 use App\Services\TaskCommentService;
 use App\Services\TaskService;
 use Illuminate\Http\JsonResponse;
@@ -18,21 +17,11 @@ class TaskController extends BaseApiController
 
     public function index(Request $request): JsonResponse
     {
-        $groupId = $request->query('groupId');
+        $validated = $request->validate([
+            'groupId' => ['required', 'integer'],
+        ]);
 
-        if ($groupId !== null) {
-            $tasks = $this->taskService->listByGroupId((int) $groupId)
-                ->map(fn ($task) => $this->mapTask($task))
-                ->values();
-
-            return response()->json($tasks);
-        }
-
-        $tasks = TaskCollection::query()
-            ->notDeleted()
-            ->with(['assignToUser.person'])
-            ->orderByDesc('Id')
-            ->get()
+        $tasks = $this->taskService->listByGroupId((int) $validated['groupId'])
             ->map(fn ($task) => $this->mapTask($task))
             ->values();
 

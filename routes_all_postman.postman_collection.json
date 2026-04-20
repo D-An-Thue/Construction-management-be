@@ -1,0 +1,1607 @@
+{
+  "info": {
+    "name": "Finance Laravel API",
+    "_postman_id": "e6b8f2e3-40c4-4b15-8fd4-bf7ad2f8030a",
+    "description": "Generated from routes_all_postman.curl",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Public Routes",
+      "item": [
+        {
+          "name": "GET /api/health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{BASE_URL}}/api/health"
+          },
+          "response": []
+        },
+        {
+          "name": "GET /api/appsettings/public",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{BASE_URL}}/api/appsettings/public"
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/roles/seed",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/roles/seed"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Authentications",
+      "item": [
+        {
+          "name": "POST /api/authentications/login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/authentications/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\":\"admin@gmail.com\",\"password\":\"A@a1234567\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/authentications/forgot-pasword",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/authentications/forgot-pasword",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\":\"admin@gmail.com\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET /api/authentications/me",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/authentications/me"
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/authentications/register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/authentications/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"User A\",\"email\":\"usera@example.com\",\"password\":\"A@a1234567\",\"confirmPassword\":\"A@a1234567\",\"phoneNumber\":\"0900000000\",\"address\":\"HN\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Roles",
+      "item": [
+        {
+          "name": "GET /api/roles",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/roles"
+          },
+          "response": []
+        },
+        {
+          "name": "GET /api/roles/me",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/roles/me"
+          },
+          "response": []
+        },
+        {
+          "name": "GET /api/roles/permissions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/roles/permissions"
+          },
+          "response": []
+        },
+        {
+          "name": "GET /api/roles/1",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/roles/1"
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/roles",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/roles",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"roleName\":\"Supervisor\",\"description\":\"Supervisor role\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT /api/roles",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/roles",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\":1,\"roleName\":\"Admin Updated\",\"description\":\"Updated\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE /api/roles/1",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/roles/1"
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/roles/1/permissions",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/roles/1/permissions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"permissionId\":17}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE /api/roles/1/permissions/17",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/roles/1/permissions/17"
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/roles/1/users",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/roles/1/users",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"personId\":1}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE /api/roles/1/users/1",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/roles/1/users/1"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Groups",
+      "item": [
+        {
+          "name": "GET /api/groups/group",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/groups/group"
+          },
+          "response": []
+        },
+        {
+          "name": "GET /api/groups/group/1",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/groups/group/1"
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/groups/group",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/groups/group",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"groupName\":\"Team A\",\"description\":\"Desc\",\"amount\":10000,\"minimumAmount\":100,\"maximumAmount\":20000,\"groupStatus\":2}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT /api/groups/group",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/groups/group",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\":1,\"groupName\":\"Team A+\",\"description\":\"Desc 2\",\"amount\":12000,\"minimumAmount\":200,\"maximumAmount\":22000,\"groupStatus\":2}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE /api/groups/group",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/groups/group",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"groupId\":1}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Persons",
+      "item": [
+        {
+          "name": "GET /api/persons/person",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/persons/person"
+          },
+          "response": []
+        },
+        {
+          "name": "GET /api/persons/person/1",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/persons/person/1"
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/persons/person",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/persons/person",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"User A\",\"sex\":1,\"email\":\"ua@example.com\",\"phoneNumber\":\"0909\",\"address\":\"HN\",\"password\":\"A@a1234567\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT /api/persons/person",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/persons/person",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\":1,\"name\":\"User A+\",\"email\":\"ua@example.com\",\"phoneNumber\":\"0911\",\"address\":\"HCM\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE /api/persons/person",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/persons/person",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\":1}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Person Groups",
+      "item": [
+        {
+          "name": "POST /api/person/groups",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/person/groups",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"groupId\":1,\"personId\":1,\"nickName\":\"nick\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT /api/person/groups",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/person/groups",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\":1,\"nickName\":\"nick-updated\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE /api/person/groups",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/person/groups",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\":1}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT /api/person/groups/admin",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/person/groups/admin",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\":1,\"isAdmin\":true}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT /api/person/groups/status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/person/groups/status",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\":1,\"joinEnums\":1}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "App Settings",
+      "item": [
+        {
+          "name": "GET /api/appsettings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/appsettings"
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/appsettings",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/appsettings",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"appName\":\"Finance App\",\"contactEmail\":\"contact@example.com\",\"domainWebsite\":\"https://example.com\",\"configJson\":\"{ \"theme \": \"dark \"}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT /api/appsettings",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/appsettings",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\":1,\"appName\":\"Finance App 2\",\"contactEmail\":\"support@example.com\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "GET /api/dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/dashboard"
+          },
+          "response": []
+        },
+        {
+          "name": "GET /api/dashboard/tickets",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/dashboard/tickets?fromDate=2026-04-01&toDate=2026-04-30"
+          },
+          "response": []
+        },
+        {
+          "name": "GET /api/dashboard/tasks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/dashboard/tasks?fromDate=2026-04-01&toDate=2026-04-30"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Tasks",
+      "item": [
+        {
+          "name": "GET /api/tasks/task",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/tasks/task?groupId=1"
+          },
+          "response": []
+        },
+        {
+          "name": "GET /api/tasks/task/1/details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/tasks/task/1/details"
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/tasks/task",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/tasks/task",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"taskTitle\":\"Prepare report\",\"taskDescription\":\"Monthly report\",\"groupId\":1,\"priority\":2,\"referenceGroupUserId\":[],\"attachLink\":[],\"ticketReferenceIds\":[],\"cost\":100}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT /api/tasks/task",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/tasks/task",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\":1,\"taskTitle\":\"Prepare report updated\",\"taskDescription\":\"Updated\",\"groupId\":1,\"status\":2,\"priority\":3,\"referenceGroupUserId\":[],\"attachLink\":[],\"ticketReferenceIds\":[],\"cost\":120}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE /api/tasks/task",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/tasks/task",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\":1}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Subtasks",
+      "item": [
+        {
+          "name": "GET /api/tasks/1/subtasks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/tasks/1/subtasks"
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/tasks/1/subtasks",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/tasks/1/subtasks",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\":\"Collect invoices\",\"description\":\"Collect all invoices\",\"type\":1,\"status\":0,\"priority\":1}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT /api/tasks/1/subtasks",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/tasks/1/subtasks",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\":1,\"title\":\"Collect invoices updated\",\"description\":\"Updated\",\"type\":1,\"status\":2,\"priority\":1}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE /api/tasks/1/subtasks",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/tasks/1/subtasks",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\":1}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Task Comments",
+      "item": [
+        {
+          "name": "GET /api/tasks/task/1/comments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/tasks/task/1/comments"
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/tasks/task/1/comments",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/tasks/task/1/comments",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"content\":\"Need this done by Friday\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT /api/tasks/task/comments",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/tasks/task/comments",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\":1,\"content\":\"Updated comment\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE /api/tasks/task/comments",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/tasks/task/comments",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\":1}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Tickets",
+      "item": [
+        {
+          "name": "GET /api/tickets/ticket",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/tickets/ticket"
+          },
+          "response": []
+        },
+        {
+          "name": "GET /api/tickets/ticket/1/details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/tickets/ticket/1/details"
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/tickets/ticket",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/tickets/ticket",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"groupId\":1,\"title\":\"Request reimbursement\",\"description\":\"Travel\",\"assignToUserId\":1,\"priority\":2,\"ticketType\":1,\"amount\":500}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT /api/tickets/ticket",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/tickets/ticket",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\":1,\"groupId\":1,\"title\":\"Request reimbursement updated\",\"description\":\"Travel updated\",\"approveForUserId\":1,\"assignToUserId\":1,\"status\":5,\"priority\":2,\"ticketType\":1,\"amount\":500}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT /api/tickets/approve",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/tickets/approve",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"ticketId\":1,\"status\":5}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE /api/tickets/ticket",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/tickets/ticket",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\":1}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Transactions",
+      "item": [
+        {
+          "name": "GET /api/transactions/transaction/{id}/details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/transactions/transaction/{id}/details"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "GET /api/products/product",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/products/product"
+          },
+          "response": []
+        },
+        {
+          "name": "GET /api/products/product/1",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/products/product/1"
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/products/product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/products/product",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"productCode\":\"PR-01\",\"productName\":\"Product A\",\"unitName\":\"Box\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT /api/products/product",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/products/product",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\":1,\"productCode\":\"PR-01\",\"productName\":\"Product A+\",\"unitName\":\"Pack\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE /api/products/product",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/products/product",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\":1}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/products/product/import",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/products/product/import",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "./products.csv"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET /api/products/product/export",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/products/product/export"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Uploads",
+      "item": [
+        {
+          "name": "POST /api/Uploads/Upload",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/Uploads/Upload",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "files[]",
+                  "type": "file",
+                  "src": "./avatar.jpg"
+                },
+                {
+                  "key": "files[]",
+                  "type": "file",
+                  "src": "./document.txt"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "http://localhost:8000"
+    },
+    {
+      "key": "TOKEN",
+      "value": "YOUR_JWT_TOKEN"
+    }
+  ]
+}

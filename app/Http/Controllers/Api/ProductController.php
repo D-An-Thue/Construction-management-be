@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ProductController extends BaseApiController
 {
@@ -33,7 +34,7 @@ class ProductController extends BaseApiController
         $validated = $request->validate([
             'productCode' => ['required', 'string'],
             'productName' => ['required', 'string'],
-            'unitName' => ['nullable', 'string'],
+            'unitName' => ['required', 'string'],
         ]);
 
         $this->productService->create([
@@ -51,7 +52,7 @@ class ProductController extends BaseApiController
             'id' => ['required', 'integer'],
             'productCode' => ['required', 'string'],
             'productName' => ['required', 'string'],
-            'unitName' => ['nullable', 'string'],
+            'unitName' => ['required', 'string'],
         ]);
 
         $this->productService->update([
@@ -75,22 +76,20 @@ class ProductController extends BaseApiController
         return response()->json(true);
     }
 
-    public function import(): JsonResponse
+    public function import(Request $request): JsonResponse
     {
-        return response()->json([
-            'status' => 501,
-            'title' => 'Not Implemented',
-            'detail' => 'Product import endpoint is not migrated yet.',
-        ], 501);
+        $validated = $request->validate([
+            'file' => ['required', 'file', 'max:10240', 'mimes:csv'],
+        ]);
+
+        return response()->json(
+            $this->productService->importExcel($validated['file'], $this->currentUserId() ?? 0)
+        );
     }
 
-    public function export(): JsonResponse
+    public function export(): StreamedResponse
     {
-        return response()->json([
-            'status' => 501,
-            'title' => 'Not Implemented',
-            'detail' => 'Product export endpoint is not migrated yet.',
-        ], 501);
+        return $this->productService->exportExcel();
     }
 
     private function mapProduct(object $product): array

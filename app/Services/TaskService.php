@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Collection;
 
 class TaskService
 {
+    private const STATUS_REOPEN = 4;
+
     public function listByGroupId(int $groupId): Collection
     {
         return TaskCollection::query()
@@ -62,12 +64,22 @@ class TaskService
     {
         $task = TaskCollection::query()->notDeleted()->findOrFail((int) $attributes['Id']);
 
+        $nextStatus = (int) ($attributes['Status'] ?? 0);
+
+        if ((int) $task->Status !== self::STATUS_REOPEN && $nextStatus < (int) $task->Status) {
+            throw new \RuntimeException(sprintf(
+                'Tiến trình hiện tại %d không thể chuyển về %d',
+                (int) $task->Status,
+                $nextStatus
+            ));
+        }
+
         $task->fill([
             'TaskTitle' => $attributes['TaskTitle'],
             'TaskDescription' => $attributes['TaskDescription'],
             'GroupId' => (int) $attributes['GroupId'],
             'AssignToUserId' => $attributes['AssignToUserId'] ?? null,
-            'Status' => (int) ($attributes['Status'] ?? 0),
+            'Status' => $nextStatus,
             'Priority' => (int) ($attributes['Priority'] ?? 1),
             'ReferenceGroupUserID' => $attributes['ReferenceGroupUserID'] ?? [],
             'AttachLink' => $attributes['AttachLink'] ?? [],

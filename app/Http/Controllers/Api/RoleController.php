@@ -185,10 +185,8 @@ class RoleController extends BaseApiController
 
     public function seed(): JsonResponse
     {
-        return response()->json([
-            'status' => 501,
-            'title' => 'Not Implemented',
-            'detail' => 'Role seed endpoint is not migrated yet.',
-        ], 501);
+        return response()->json(
+            $this->roleService->seedPermissionsAndRoles($this->currentUserId())
+        );
     }
 }

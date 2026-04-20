@@ -10,34 +10,33 @@ use Illuminate\Support\Str;
 class UploadService
 {
     /**
-     * @return array<string, mixed>
+     * @param  array<int, UploadedFile>  $files
+     * @return array<int, string>
      */
-    public function upload(UploadedFile $file, int $actorId): array
+    public function uploadMany(array $files, int $actorId): array
     {
         $disk = config('filesystems.default', 'local');
-        $storedName = (string) Str::uuid().'.'.$file->getClientOriginalExtension();
-        $path = $file->storeAs('uploads', $storedName, $disk);
+        $urls = [];
 
-        $upload = UploadFile::query()->create([
-            'OriginalName' => $file->getClientOriginalName(),
-            'StoredName' => $storedName,
-            'Disk' => (string) $disk,
-            'Path' => $path,
-            'MimeType' => $file->getClientMimeType() ?? '',
-            'Size' => (int) $file->getSize(),
-            'CreatedBy' => $actorId,
-            'CreatedAt' => now(),
-        ]);
+        foreach ($files as $file) {
+            $storedName = now()->format('dmYHis').'_'.$file->getClientOriginalName();
+            $safeStoredName = (string) Str::of($storedName)->replaceMatches('/[^A-Za-z0-9._-]/', '_');
+            $path = $file->storeAs('media/'.now()->format('Y/m/d'), (string) $safeStoredName, $disk);
 
-        return [
-            'Id' => $upload->Id,
-            'OriginalName' => $upload->OriginalName,
-            'StoredName' => $upload->StoredName,
-            'Disk' => $upload->Disk,
-            'Path' => $upload->Path,
-            'MimeType' => $upload->MimeType,
-            'Size' => $upload->Size,
-            'Url' => Storage::disk($disk)->url($path),
-        ];
+            $upload = UploadFile::query()->create([
+                'OriginalName' => $file->getClientOriginalName(),
+                'StoredName' => (string) $safeStoredName,
+                'Disk' => (string) $disk,
+                'Path' => $path,
+                'MimeType' => $file->getClientMimeType() ?? '',
+                'Size' => (int) $file->getSize(),
+                'CreatedBy' => $actorId,
+                'CreatedAt' => now(),
+            ]);
+
+            $urls[] = Storage::disk($disk)->url($upload->Path);
+        }
+
+        return $urls;
     }
 }

@@ -15,11 +15,12 @@ class UploadController extends BaseApiController
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'file' => ['required', 'file', 'max:5120'],
+            'files' => ['required', 'array', 'min:1'],
+            'files.*' => ['required', 'file', 'max:30720'],
         ]);
 
         return response()->json(
-            $this->uploadService->upload($validated['file'], $this->currentUserId() ?? 0)
+            $this->uploadService->uploadMany($validated['files'], $this->currentUserId() ?? 0)
         );
     }
 }
