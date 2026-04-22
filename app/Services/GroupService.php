@@ -91,6 +91,27 @@ class GroupService
         $group->save();
     }
 
+    /**
+     * @param  array<int, string>  $fileUpload
+     */
+    public function appendConstructionDocuments(int $groupId, array $fileUpload, int $actorId): Group
+    {
+        $group = Group::query()->notDeleted()->findOrFail($groupId);
+
+        $current = is_array($group->ConstructionDocuments) ? $group->ConstructionDocuments : [];
+        $merged = array_values(array_unique(array_merge($current, $fileUpload), SORT_STRING));
+
+        $group->fill([
+            'ConstructionDocuments' => $merged,
+            'UpdatedBy' => $actorId,
+            'UpdatedAt' => now(),
+        ]);
+
+        $group->save();
+
+        return $group;
+    }
+
     public function memberPeople(int $groupId)
     {
         return $this->detail($groupId)->members

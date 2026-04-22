@@ -64,6 +64,7 @@ Route::middleware(['jwt'])->group(function () {
         Route::get('group/{idGroups}', [GroupController::class, 'show'])->middleware('permission:group.view')->whereNumber('idGroups');
         Route::post('group', [GroupController::class, 'store'])->middleware('permission:group.create');
         Route::put('group', [GroupController::class, 'update'])->middleware('permission:group.update');
+        Route::put('group/file-upload', [GroupController::class, 'updateFileUpload'])->middleware('permission:group.update');
         Route::delete('group', [GroupController::class, 'destroy'])->middleware('permission:group.delete');
     });
 

@@ -58,6 +58,7 @@ class GroupController extends BaseApiController
             'UpdatedBy' => $group->UpdatedBy,
             'PersonUpdate' => null,
             'GroupStatus' => $group->GroupStatus,
+            'ConstructionDocuments' => $group->ConstructionDocuments,
             'personGroups' => $this->groupService->memberPeople($idGroups),
             'Ticket' => [],
             'TaskCollections' => [],
@@ -121,5 +122,41 @@ class GroupController extends BaseApiController
         $this->groupService->delete((int) $validated['groupId'], $this->currentUserId() ?? 0);
 
         return $this->jsonResponse(true);
+    }
+
+    public function updateFileUpload(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'groupId' => ['required', 'integer'],
+            'fileUpload' => ['required', 'array', 'min:1'],
+            'fileUpload.*' => ['required', 'string', 'url', 'max:2048'],
+        ]);
+
+        $group = $this->groupService->appendConstructionDocuments(
+            (int) $validated['groupId'],
+            $validated['fileUpload'],
+            $this->currentUserId() ?? 0
+        );
+
+        return $this->jsonResponse([
+            'Id' => $group->Id,
+            'CreatedAt' => $group->CreatedAt,
+            'UpdatedAt' => $group->UpdatedAt,
+            'IsDeleted' => $group->IsDeleted,
+            'GroupName' => $group->GroupName,
+            'Description' => $group->Description,
+            'Amount' => $group->Amount,
+            'MinimumAmount' => $group->MinimumAmount,
+            'MaximumAmount' => $group->MaximumAmount,
+            'CreatedBy' => $group->CreatedBy,
+            'PersonCreate' => null,
+            'UpdatedBy' => $group->UpdatedBy,
+            'PersonUpdate' => null,
+            'GroupStatus' => $group->GroupStatus,
+            'ConstructionDocuments' => $group->ConstructionDocuments,
+            'personGroups' => $this->groupService->memberPeople($group->Id),
+            'Ticket' => [],
+            'TaskCollections' => [],
+        ]);
     }
 }
