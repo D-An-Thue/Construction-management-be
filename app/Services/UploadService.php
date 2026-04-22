@@ -15,7 +15,7 @@ class UploadService
      */
     public function uploadMany(array $files, int $actorId): array
     {
-        $disk = config('filesystems.default', 'local');
+        $disk = (string) config('filesystems.upload_disk', config('filesystems.default', 'local'));
         $urls = [];
 
         foreach ($files as $file) {
