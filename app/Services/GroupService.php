@@ -112,6 +112,27 @@ class GroupService
         return $group;
     }
 
+    public function removeConstructionDocument(int $groupId, string $documentUrl, int $actorId): Group
+    {
+        $group = Group::query()->notDeleted()->findOrFail($groupId);
+
+        $current = is_array($group->ConstructionDocuments) ? $group->ConstructionDocuments : [];
+        $remaining = array_values(array_filter(
+            $current,
+            fn ($url) => ! (is_string($url) && $url === $documentUrl)
+        ));
+
+        $group->fill([
+            'ConstructionDocuments' => $remaining,
+            'UpdatedBy' => $actorId,
+            'UpdatedAt' => now(),
+        ]);
+
+        $group->save();
+
+        return $group;
+    }
+
     public function memberPeople(int $groupId)
     {
         return $this->detail($groupId)->members

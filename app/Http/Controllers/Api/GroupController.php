@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Services\GroupService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class GroupController extends BaseApiController
 {
@@ -132,11 +134,54 @@ class GroupController extends BaseApiController
             'fileUpload.*' => ['required', 'string', 'url', 'max:2048'],
         ]);
 
-        $group = $this->groupService->appendConstructionDocuments(
-            (int) $validated['groupId'],
-            $validated['fileUpload'],
-            $this->currentUserId() ?? 0
-        );
+        try {
+            $group = $this->groupService->appendConstructionDocuments(
+                (int) $validated['groupId'],
+                $validated['fileUpload'],
+                $this->currentUserId() ?? 0
+            );
+        } catch (ModelNotFoundException) {
+            throw new NotFoundHttpException('Không tìm thấy nhóm với groupId '.$validated['groupId'].'.');
+        }
+
+        return $this->jsonResponse([
+            'Id' => $group->Id,
+            'CreatedAt' => $group->CreatedAt,
+            'UpdatedAt' => $group->UpdatedAt,
+            'IsDeleted' => $group->IsDeleted,
+            'GroupName' => $group->GroupName,
+            'Description' => $group->Description,
+            'Amount' => $group->Amount,
+            'MinimumAmount' => $group->MinimumAmount,
+            'MaximumAmount' => $group->MaximumAmount,
+            'CreatedBy' => $group->CreatedBy,
+            'PersonCreate' => null,
+            'UpdatedBy' => $group->UpdatedBy,
+            'PersonUpdate' => null,
+            'GroupStatus' => $group->GroupStatus,
+            'ConstructionDocuments' => $group->ConstructionDocuments,
+            'personGroups' => $this->groupService->memberPeople($group->Id),
+            'Ticket' => [],
+            'TaskCollections' => [],
+        ]);
+    }
+
+    public function destroyFileUpload(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'groupId' => ['required', 'integer'],
+            'documentUrl' => ['required', 'string', 'url', 'max:2048'],
+        ]);
+
+        try {
+            $group = $this->groupService->removeConstructionDocument(
+                (int) $validated['groupId'],
+                $validated['documentUrl'],
+                $this->currentUserId() ?? 0
+            );
+        } catch (ModelNotFoundException) {
+            throw new NotFoundHttpException('Không tìm thấy nhóm với groupId '.$validated['groupId'].'.');
+        }
 
         return $this->jsonResponse([
             'Id' => $group->Id,
