@@ -7,12 +7,11 @@ use App\Http\Controllers\Api\GroupController;
 use App\Http\Controllers\Api\PersonController;
 use App\Http\Controllers\Api\PersonGroupController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\ReportController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\SubTaskController;
 use App\Http\Controllers\Api\TaskCommentController;
 use App\Http\Controllers\Api\TaskController;
-use App\Http\Controllers\Api\TicketController;
-use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\UploadController;
 use Illuminate\Support\Facades\Route;
 
@@ -93,8 +92,12 @@ Route::middleware(['jwt'])->group(function () {
 
     Route::prefix('dashboard')->group(function () {
         Route::get('/', [DashboardController::class, 'summary'])->middleware('permission:task.view');
-        Route::get('tickets', [DashboardController::class, 'ticketStats'])->middleware('permission:ticket.view');
         Route::get('tasks', [DashboardController::class, 'taskStats'])->middleware('permission:task.view');
+    });
+
+    Route::prefix('report')->group(function () {
+        Route::get('overdue-tasks', [ReportController::class, 'overdueTasks'])->middleware('permission:task.view');
+        Route::get('daily-tasks-by-status', [ReportController::class, 'dailyTasksByStatus'])->middleware('permission:task.view');
     });
 
     Route::prefix('tasks')->group(function () {
@@ -113,19 +116,6 @@ Route::middleware(['jwt'])->group(function () {
         Route::post('task/{taskId}/comments', [TaskCommentController::class, 'store'])->middleware('permission:task.create')->whereNumber('taskId');
         Route::put('task/comments', [TaskCommentController::class, 'update'])->middleware('permission:task.update');
         Route::delete('task/comments', [TaskCommentController::class, 'destroy'])->middleware('permission:task.delete');
-    });
-
-    Route::prefix('tickets')->group(function () {
-        Route::get('ticket', [TicketController::class, 'index'])->middleware('permission:ticket.view');
-        Route::get('ticket/{id}/details', [TicketController::class, 'show'])->middleware('permission:ticket.view')->whereNumber('id');
-        Route::post('ticket', [TicketController::class, 'store'])->middleware('permission:ticket.create');
-        Route::put('ticket', [TicketController::class, 'update'])->middleware('permission:ticket.create');
-        Route::put('approve', [TicketController::class, 'approve'])->middleware('permission:ticket.approve');
-        Route::delete('ticket', [TicketController::class, 'destroy'])->middleware('permission:ticket.delete');
-    });
-
-    Route::prefix('transactions')->group(function () {
-        Route::get('transaction/{id}/details', [TransactionController::class, 'show'])->middleware('permission:transaction.view');
     });
 
     Route::prefix('products')->group(function () {

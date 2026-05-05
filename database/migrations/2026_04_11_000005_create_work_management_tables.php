@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('TaskCollections', function (Blueprint $table) {
             $table->increments('Id');
             $table->string('TaskTitle', 500);
-            $table->text('TaskDescription');
+            $table->text('TaskDescription')->nullable();
             $table->unsignedInteger('GroupId');
             $table->unsignedInteger('AssignToUserId')->nullable();
             $table->unsignedTinyInteger('Status')->default(0);

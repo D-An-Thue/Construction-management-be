@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\TaskCollection;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 class TaskService
 {
@@ -35,7 +37,7 @@ class TaskService
 
     public function create(array $attributes, int $actorGroupId): bool
     {
-        TaskCollection::query()->create([
+        $payload = [
             'TaskTitle' => $attributes['TaskTitle'],
             'TaskDescription' => $attributes['TaskDescription'],
             'GroupId' => (int) $attributes['GroupId'],
@@ -44,10 +46,7 @@ class TaskService
             'Priority' => (int) ($attributes['Priority'] ?? 1),
             'ReferenceGroupUserID' => $attributes['ReferenceGroupUserID'] ?? [],
             'AttachLink' => $attributes['AttachLink'] ?? [],
-            'TicketReferenceIds' => $attributes['TicketReferenceIds'] ?? [],
-            'Cost' => $attributes['Cost'] ?? 0,
             'DueDate' => $attributes['DueDate'] ?? null,
-            'TransactionId' => (string) \Illuminate\Support\Str::uuid(),
             'IsDeleted' => false,
             'CreatedBy' => $actorGroupId,
             'UpdatedBy' => null,
@@ -55,7 +54,13 @@ class TaskService
             'CreatedAt' => now(),
             'UpdatedAt' => null,
             'DeleteAt' => null,
-        ]);
+        ];
+
+        if (Schema::hasColumn('TaskCollections', 'TransactionId')) {
+            $payload['TransactionId'] = (string) Str::uuid();
+        }
+
+        TaskCollection::query()->create($payload);
 
         return true;
     }
@@ -83,8 +88,6 @@ class TaskService
             'Priority' => (int) ($attributes['Priority'] ?? 1),
             'ReferenceGroupUserID' => $attributes['ReferenceGroupUserID'] ?? [],
             'AttachLink' => $attributes['AttachLink'] ?? [],
-            'TicketReferenceIds' => $attributes['TicketReferenceIds'] ?? [],
-            'Cost' => $attributes['Cost'] ?? 0,
             'DueDate' => $attributes['DueDate'] ?? null,
             'UpdatedBy' => $actorGroupId,
             'UpdatedAt' => now(),

@@ -72,27 +72,23 @@ class TaskController extends BaseApiController
     {
         $validated = $request->validate([
             'taskTitle' => ['required', 'string'],
-            'taskDescription' => ['required', 'string'],
+            'taskDescription' => ['nullable', 'string'],
             'groupId' => ['required', 'integer'],
             'assignToUserId' => ['nullable', 'integer'],
             'priority' => ['nullable', 'integer'],
             'referenceGroupUserId' => ['nullable', 'array'],
             'attachLink' => ['nullable', 'array'],
-            'ticketReferenceIds' => ['nullable', 'array'],
-            'cost' => ['nullable', 'numeric'],
             'dueDate' => ['nullable', 'date'],
         ]);
 
         $this->taskService->create([
             'TaskTitle' => $validated['taskTitle'],
-            'TaskDescription' => $validated['taskDescription'],
+            'TaskDescription' => $validated['taskDescription'] ?? null,
             'GroupId' => $validated['groupId'],
             'AssignToUserId' => $validated['assignToUserId'] ?? null,
             'Priority' => $validated['priority'] ?? null,
             'ReferenceGroupUserID' => $validated['referenceGroupUserId'] ?? null,
             'AttachLink' => $validated['attachLink'] ?? null,
-            'TicketReferenceIds' => $validated['ticketReferenceIds'] ?? null,
-            'Cost' => $validated['cost'] ?? null,
             'DueDate' => $validated['dueDate'] ?? null,
         ], $this->currentUserId() ?? 0);
 
@@ -104,30 +100,26 @@ class TaskController extends BaseApiController
         $validated = $request->validate([
             'id' => ['required', 'integer'],
             'taskTitle' => ['required', 'string'],
-            'taskDescription' => ['required', 'string'],
+            'taskDescription' => ['nullable', 'string'],
             'groupId' => ['required', 'integer'],
             'assignToUserId' => ['nullable', 'integer'],
             'status' => ['nullable', 'integer'],
             'priority' => ['nullable', 'integer'],
             'referenceGroupUserId' => ['nullable', 'array'],
             'attachLink' => ['nullable', 'array'],
-            'ticketReferenceIds' => ['nullable', 'array'],
-            'cost' => ['nullable', 'numeric'],
             'dueDate' => ['nullable', 'date'],
         ]);
 
         $this->taskService->update([
             'Id' => $validated['id'],
             'TaskTitle' => $validated['taskTitle'],
-            'TaskDescription' => $validated['taskDescription'],
+            'TaskDescription' => $validated['taskDescription'] ?? null,
             'GroupId' => $validated['groupId'],
             'AssignToUserId' => $validated['assignToUserId'] ?? null,
             'Status' => $validated['status'] ?? null,
             'Priority' => $validated['priority'] ?? null,
             'ReferenceGroupUserID' => $validated['referenceGroupUserId'] ?? null,
             'AttachLink' => $validated['attachLink'] ?? null,
-            'TicketReferenceIds' => $validated['ticketReferenceIds'] ?? null,
-            'Cost' => $validated['cost'] ?? null,
             'DueDate' => $validated['dueDate'] ?? null,
         ], $this->currentUserId() ?? 0);
 
@@ -157,8 +149,6 @@ class TaskController extends BaseApiController
             'Priority' => $task->Priority,
             'ReferenceGroupUserID' => $task->ReferenceGroupUserID,
             'AttachLink' => $task->AttachLink,
-            'TicketReferenceIds' => $task->TicketReferenceIds,
-            'Cost' => $task->Cost,
             'DueDate' => $task->DueDate,
             'CreatedAt' => $task->CreatedAt,
             'UpdatedAt' => $task->UpdatedAt,

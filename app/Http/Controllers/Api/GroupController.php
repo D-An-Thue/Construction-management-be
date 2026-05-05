@@ -27,9 +27,6 @@ class GroupController extends BaseApiController
                 'IsDeleted' => $group->IsDeleted,
                 'GroupName' => $group->GroupName,
                 'Description' => $group->Description,
-                'Amount' => $group->Amount,
-                'MinimumAmount' => $group->MinimumAmount,
-                'MaximumAmount' => $group->MaximumAmount,
                 'CreatedBy' => $group->CreatedBy,
                 'PersonCreate' => null,
                 'UpdatedBy' => $group->UpdatedBy,
@@ -52,9 +49,6 @@ class GroupController extends BaseApiController
             'IsDeleted' => $group->IsDeleted,
             'GroupName' => $group->GroupName,
             'Description' => $group->Description,
-            'Amount' => $group->Amount,
-            'MinimumAmount' => $group->MinimumAmount,
-            'MaximumAmount' => $group->MaximumAmount,
             'CreatedBy' => $group->CreatedBy,
             'PersonCreate' => null,
             'UpdatedBy' => $group->UpdatedBy,
@@ -62,8 +56,6 @@ class GroupController extends BaseApiController
             'GroupStatus' => $group->GroupStatus,
             'ConstructionDocuments' => $group->ConstructionDocuments,
             'personGroups' => $this->groupService->memberPeople($idGroups),
-            'Ticket' => [],
-            'TaskCollections' => [],
         ]);
     }
 
@@ -72,18 +64,12 @@ class GroupController extends BaseApiController
         $validated = $request->validate([
             'groupName' => ['required', 'string'],
             'description' => ['nullable', 'string'],
-            'amount' => ['nullable', 'integer'],
-            'minimumAmount' => ['nullable', 'integer'],
-            'maximumAmount' => ['nullable', 'integer'],
             'groupStatus' => ['nullable', 'integer'],
         ]);
 
         $this->groupService->create([
             'GroupName' => $validated['groupName'],
             'Description' => $validated['description'] ?? null,
-            'Amount' => $validated['amount'] ?? null,
-            'MinimumAmount' => $validated['minimumAmount'] ?? null,
-            'MaximumAmount' => $validated['maximumAmount'] ?? null,
             'GroupStatus' => $validated['groupStatus'] ?? null,
         ], $this->currentUserId() ?? 0);
 
@@ -96,9 +82,6 @@ class GroupController extends BaseApiController
             'id' => ['required', 'integer'],
             'groupName' => ['required', 'string'],
             'description' => ['nullable', 'string'],
-            'amount' => ['nullable', 'integer'],
-            'minimumAmount' => ['nullable', 'integer'],
-            'maximumAmount' => ['nullable', 'integer'],
             'groupStatus' => ['nullable', 'integer'],
         ]);
 
@@ -106,9 +89,6 @@ class GroupController extends BaseApiController
             'id' => $validated['id'],
             'GroupName' => $validated['groupName'],
             'Description' => $validated['description'] ?? null,
-            'Amount' => $validated['amount'] ?? null,
-            'MinimumAmount' => $validated['minimumAmount'] ?? null,
-            'MaximumAmount' => $validated['maximumAmount'] ?? null,
             'GroupStatus' => $validated['groupStatus'] ?? null,
         ], $this->currentUserId() ?? 0);
 
@@ -151,9 +131,6 @@ class GroupController extends BaseApiController
             'IsDeleted' => $group->IsDeleted,
             'GroupName' => $group->GroupName,
             'Description' => $group->Description,
-            'Amount' => $group->Amount,
-            'MinimumAmount' => $group->MinimumAmount,
-            'MaximumAmount' => $group->MaximumAmount,
             'CreatedBy' => $group->CreatedBy,
             'PersonCreate' => null,
             'UpdatedBy' => $group->UpdatedBy,
@@ -161,8 +138,6 @@ class GroupController extends BaseApiController
             'GroupStatus' => $group->GroupStatus,
             'ConstructionDocuments' => $group->ConstructionDocuments,
             'personGroups' => $this->groupService->memberPeople($group->Id),
-            'Ticket' => [],
-            'TaskCollections' => [],
         ]);
     }
 
@@ -190,9 +165,6 @@ class GroupController extends BaseApiController
             'IsDeleted' => $group->IsDeleted,
             'GroupName' => $group->GroupName,
             'Description' => $group->Description,
-            'Amount' => $group->Amount,
-            'MinimumAmount' => $group->MinimumAmount,
-            'MaximumAmount' => $group->MaximumAmount,
             'CreatedBy' => $group->CreatedBy,
             'PersonCreate' => null,
             'UpdatedBy' => $group->UpdatedBy,
@@ -200,8 +172,6 @@ class GroupController extends BaseApiController
             'GroupStatus' => $group->GroupStatus,
             'ConstructionDocuments' => $group->ConstructionDocuments,
             'personGroups' => $this->groupService->memberPeople($group->Id),
-            'Ticket' => [],
-            'TaskCollections' => [],
         ]);
     }
 }

@@ -18,18 +18,6 @@ class DashboardController extends BaseApiController
         );
     }
 
-    public function ticketStats(): JsonResponse
-    {
-        $validated = request()->validate([
-            'fromDate' => ['required', 'date'],
-            'toDate' => ['required', 'date'],
-        ]);
-
-        return $this->jsonResponse(
-            $this->dashboardService->ticketStatsByDateRange($validated['fromDate'], $validated['toDate'])
-        );
-    }
-
     public function taskStats(): JsonResponse
     {
         $validated = request()->validate([

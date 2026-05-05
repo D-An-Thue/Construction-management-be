@@ -20,11 +20,7 @@ class Group extends Model
     protected $fillable = [
         'GroupName',
         'Description',
-        'Amount',
-        'MinimumAmount',
-        'MaximumAmount',
         'GroupStatus',
-        'TransactionId',
         'ConstructionDocuments',
         'IsDeleted',
         'CreatedBy',
@@ -39,11 +35,7 @@ class Group extends Model
     {
         return [
             'Id' => 'integer',
-            'Amount' => 'integer',
-            'MinimumAmount' => 'integer',
-            'MaximumAmount' => 'integer',
             'GroupStatus' => 'integer',
-            'TransactionId' => 'string',
             'ConstructionDocuments' => 'array',
             'IsDeleted' => 'boolean',
             'CreatedBy' => 'integer',

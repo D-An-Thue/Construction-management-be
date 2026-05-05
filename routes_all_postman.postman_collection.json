@@ -419,7 +419,7 @@
             "url": "{{BASE_URL}}/api/groups/group",
             "body": {
               "mode": "raw",
-              "raw": "{\"groupName\":\"Team A\",\"description\":\"Desc\",\"amount\":10000,\"minimumAmount\":100,\"maximumAmount\":20000,\"groupStatus\":2}",
+              "raw": "{\"groupName\":\"Team A\",\"description\":\"Desc\",\"groupStatus\":2}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -448,7 +448,7 @@
             "url": "{{BASE_URL}}/api/groups/group",
             "body": {
               "mode": "raw",
-              "raw": "{\"id\":1,\"groupName\":\"Team A+\",\"description\":\"Desc 2\",\"amount\":12000,\"minimumAmount\":200,\"maximumAmount\":22000,\"groupStatus\":2}",
+              "raw": "{\"id\":1,\"groupName\":\"Team A+\",\"description\":\"Desc 2\",\"groupStatus\":2}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -840,56 +840,6 @@
       ]
     },
     {
-      "name": "Dashboard",
-      "item": [
-        {
-          "name": "GET /api/dashboard",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{TOKEN}}",
-                "type": "text"
-              }
-            ],
-            "url": "{{BASE_URL}}/api/dashboard"
-          },
-          "response": []
-        },
-        {
-          "name": "GET /api/dashboard/tickets",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{TOKEN}}",
-                "type": "text"
-              }
-            ],
-            "url": "{{BASE_URL}}/api/dashboard/tickets?fromDate=2026-04-01&toDate=2026-04-30"
-          },
-          "response": []
-        },
-        {
-          "name": "GET /api/dashboard/tasks",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{TOKEN}}",
-                "type": "text"
-              }
-            ],
-            "url": "{{BASE_URL}}/api/dashboard/tasks?fromDate=2026-04-01&toDate=2026-04-30"
-          },
-          "response": []
-        }
-      ]
-    },
-    {
       "name": "Tasks",
       "item": [
         {
@@ -941,7 +891,7 @@
             "url": "{{BASE_URL}}/api/tasks/task",
             "body": {
               "mode": "raw",
-              "raw": "{\"taskTitle\":\"Prepare report\",\"taskDescription\":\"Monthly report\",\"groupId\":1,\"priority\":2,\"referenceGroupUserId\":[],\"attachLink\":[],\"ticketReferenceIds\":[],\"cost\":100}",
+              "raw": "{\"taskTitle\":\"Prepare report\",\"taskDescription\":\"Monthly report\",\"groupId\":1,\"priority\":2,\"referenceGroupUserId\":[],\"attachLink\":[]}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -970,7 +920,7 @@
             "url": "{{BASE_URL}}/api/tasks/task",
             "body": {
               "mode": "raw",
-              "raw": "{\"id\":1,\"taskTitle\":\"Prepare report updated\",\"taskDescription\":\"Updated\",\"groupId\":1,\"status\":2,\"priority\":3,\"referenceGroupUserId\":[],\"attachLink\":[],\"ticketReferenceIds\":[],\"cost\":120}",
+              "raw": "{\"id\":1,\"taskTitle\":\"Prepare report updated\",\"taskDescription\":\"Updated\",\"groupId\":1,\"status\":2,\"priority\":3,\"referenceGroupUserId\":[],\"attachLink\":[]}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1220,177 +1170,6 @@
                 }
               }
             }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Tickets",
-      "item": [
-        {
-          "name": "GET /api/tickets/ticket",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{TOKEN}}",
-                "type": "text"
-              }
-            ],
-            "url": "{{BASE_URL}}/api/tickets/ticket"
-          },
-          "response": []
-        },
-        {
-          "name": "GET /api/tickets/ticket/1/details",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{TOKEN}}",
-                "type": "text"
-              }
-            ],
-            "url": "{{BASE_URL}}/api/tickets/ticket/1/details"
-          },
-          "response": []
-        },
-        {
-          "name": "POST /api/tickets/ticket",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{TOKEN}}",
-                "type": "text"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "url": "{{BASE_URL}}/api/tickets/ticket",
-            "body": {
-              "mode": "raw",
-              "raw": "{\"groupId\":1,\"title\":\"Request reimbursement\",\"description\":\"Travel\",\"assignToUserId\":1,\"priority\":2,\"ticketType\":1,\"amount\":500}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "PUT /api/tickets/ticket",
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{TOKEN}}",
-                "type": "text"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "url": "{{BASE_URL}}/api/tickets/ticket",
-            "body": {
-              "mode": "raw",
-              "raw": "{\"id\":1,\"groupId\":1,\"title\":\"Request reimbursement updated\",\"description\":\"Travel updated\",\"approveForUserId\":1,\"assignToUserId\":1,\"status\":5,\"priority\":2,\"ticketType\":1,\"amount\":500}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "PUT /api/tickets/approve",
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{TOKEN}}",
-                "type": "text"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "url": "{{BASE_URL}}/api/tickets/approve",
-            "body": {
-              "mode": "raw",
-              "raw": "{\"ticketId\":1,\"status\":5}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "DELETE /api/tickets/ticket",
-          "request": {
-            "method": "DELETE",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{TOKEN}}",
-                "type": "text"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "url": "{{BASE_URL}}/api/tickets/ticket",
-            "body": {
-              "mode": "raw",
-              "raw": "{\"id\":1}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Transactions",
-      "item": [
-        {
-          "name": "GET /api/transactions/transaction/{id}/details",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{TOKEN}}",
-                "type": "text"
-              }
-            ],
-            "url": "{{BASE_URL}}/api/transactions/transaction/{id}/details"
           },
           "response": []
         }

@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\Group;
-use App\Models\Person;
 use Illuminate\Database\Eloquent\Collection;
 
 class GroupService
@@ -41,11 +40,7 @@ class GroupService
         return Group::query()->create([
             'GroupName' => $attributes['GroupName'],
             'Description' => $attributes['Description'] ?? '',
-            'Amount' => (int) ($attributes['Amount'] ?? 0),
-            'MinimumAmount' => (int) ($attributes['MinimumAmount'] ?? 0),
-            'MaximumAmount' => (int) ($attributes['MaximumAmount'] ?? 0),
             'GroupStatus' => (int) ($attributes['GroupStatus'] ?? 2),
-            'TransactionId' => (string) \Illuminate\Support\Str::uuid(),
             'IsDeleted' => false,
             'CreatedBy' => $actorId,
             'UpdatedBy' => null,
@@ -63,9 +58,6 @@ class GroupService
         $group->fill([
             'GroupName' => $attributes['GroupName'],
             'Description' => $attributes['Description'] ?? '',
-            'Amount' => (int) ($attributes['Amount'] ?? 0),
-            'MinimumAmount' => (int) ($attributes['MinimumAmount'] ?? 0),
-            'MaximumAmount' => (int) ($attributes['MaximumAmount'] ?? 0),
             'GroupStatus' => (int) ($attributes['GroupStatus'] ?? 2),
             'UpdatedBy' => $actorId,
             'UpdatedAt' => now(),
