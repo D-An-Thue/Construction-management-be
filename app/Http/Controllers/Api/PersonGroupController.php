@@ -55,10 +55,11 @@ class PersonGroupController extends BaseApiController
     public function destroy(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'id' => ['required', 'integer'],
+            'personId' => ['required', 'integer'],
+            'groupId' => ['required', 'integer'],
         ]);
 
-        $this->personGroupService->delete((int) $validated['id'], $this->currentUserId() ?? 0);
+        $this->personGroupService->delete((int) $validated['personId'], (int) $validated['groupId'], $this->currentUserId() ?? 0);
 
         return $this->jsonResponse(true);
     }

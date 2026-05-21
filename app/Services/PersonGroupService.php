@@ -43,9 +43,13 @@ class PersonGroupService
         $personGroup->save();
     }
 
-    public function delete(int $id, int $actorId): void
+    public function delete(int $personId, int $groupId, int $actorId): void
     {
-        $personGroup = PersonGroup::query()->notDeleted()->findOrFail($id);
+        $personGroup = PersonGroup::query()
+            ->notDeleted()
+            ->where('GroupId', $groupId)
+            ->where('PersonId', $personId)
+            ->firstOrFail();
 
         $personGroup->fill([
             'IsDeleted' => true,
