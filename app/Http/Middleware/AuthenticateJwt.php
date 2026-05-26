@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Person;
 use Illuminate\Auth\AuthenticationException;
 use Closure;
 use Illuminate\Http\Request;
@@ -21,10 +22,34 @@ class AuthenticateJwt
         }
 
         $claims = $this->decodeAndValidate($token);
+        $person = $this->resolvePerson($claims);
 
         $request->attributes->set('jwt.claims', $claims);
+        $request->setUserResolver(fn (?string $guard = null) => $person);
 
         return $next($request);
+    }
+
+    /**
+     * @param  array<string, mixed>  $claims
+     */
+    private function resolvePerson(array $claims): Person
+    {
+        $sub = $claims['sub'] ?? null;
+
+        if (! is_int($sub) && (! is_string($sub) || ! ctype_digit($sub))) {
+            throw new AuthenticationException('Invalid token subject.');
+        }
+
+        $person = Person::query()
+            ->notDeleted()
+            ->find((int) $sub);
+
+        if (! $person) {
+            throw new AuthenticationException('Unauthenticated.');
+        }
+
+        return $person;
     }
 
     /**
