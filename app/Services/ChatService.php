@@ -254,7 +254,7 @@ class ChatService
         return $this->loadMessage($message->Id);
     }
 
-    public function deleteMessage(int $messageId, int $actorPersonId): void
+    public function deleteMessage(int $messageId, int $actorPersonId): ChatMessage
     {
         $message = ChatMessage::query()->notDeleted()->findOrFail($messageId);
         $this->ensureConversationAccess($actorPersonId, (int) $message->ConversationId);
@@ -263,7 +263,7 @@ class ChatService
             abort(403, 'Forbidden.');
         }
 
-        DB::transaction(function () use ($message, $actorPersonId) {
+        return DB::transaction(function () use ($message, $actorPersonId) {
             $message->fill([
                 'IsDeleted' => true,
                 'DeleteBy' => $actorPersonId,
@@ -286,6 +286,8 @@ class ChatService
                 'UpdatedBy' => $actorPersonId,
                 'UpdatedAt' => now(),
             ])->save();
+
+            return $this->loadMessage($message->Id);
         });
     }
 

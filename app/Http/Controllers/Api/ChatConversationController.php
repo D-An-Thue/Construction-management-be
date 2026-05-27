@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\ChatConversationRead;
+use App\Events\ChatTyping;
 use App\Models\ChatConversation;
+use App\Models\Person;
 use App\Services\ChatService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -75,6 +78,14 @@ class ChatConversationController extends BaseApiController
         ]);
 
         $participant = $this->chatService->markRead($conversationId, $actorPersonId, (int) $validated['messageId']);
+        $person = $this->resolveCurrentPerson($request, $actorPersonId);
+
+        event(new ChatConversationRead(
+            $conversationId,
+            $person,
+            (int) $participant->LastReadMessageId,
+            $participant->LastReadAt
+        ));
 
         return $this->jsonResponse([
             'ConversationId' => $conversationId,
@@ -99,11 +110,27 @@ class ChatConversationController extends BaseApiController
             abort(403, 'Forbidden.');
         }
 
+        $isTyping = (bool) ($validated['isTyping'] ?? true);
+        $person = $this->resolveCurrentPerson($request, $actorPersonId);
+
+        event(new ChatTyping($conversationId, $person, $isTyping));
+
         return $this->jsonResponse([
             'ConversationId' => $conversationId,
             'PersonId' => $actorPersonId,
-            'IsTyping' => (bool) ($validated['isTyping'] ?? true),
+            'IsTyping' => $isTyping,
         ]);
+    }
+
+    private function resolveCurrentPerson(Request $request, int $actorPersonId): Person
+    {
+        $person = $request->user();
+
+        if ($person instanceof Person) {
+            return $person;
+        }
+
+        return Person::query()->notDeleted()->findOrFail($actorPersonId);
     }
 
     private function mapConversationSummary(ChatConversation $conversation, int $actorPersonId): array

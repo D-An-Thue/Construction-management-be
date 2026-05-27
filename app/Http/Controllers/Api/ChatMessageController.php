@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\ChatMessageDeleted;
+use App\Events\ChatMessageSent;
+use App\Events\ChatMessageUpdated;
 use App\Models\ChatMessage;
 use App\Services\ChatService;
 use Illuminate\Http\JsonResponse;
@@ -59,6 +62,8 @@ class ChatMessageController extends BaseApiController
             'MessageType' => $validated['messageType'] ?? ChatMessage::TYPE_TEXT,
         ]);
 
+        event(new ChatMessageSent($message));
+
         return $this->jsonResponse($this->mapMessage($message));
     }
 
@@ -76,6 +81,8 @@ class ChatMessageController extends BaseApiController
 
         $message = $this->chatService->editMessage($messageId, $actorPersonId, $validated['body']);
 
+        event(new ChatMessageUpdated($message));
+
         return $this->jsonResponse($this->mapMessage($message));
     }
 
@@ -87,7 +94,9 @@ class ChatMessageController extends BaseApiController
             abort(401, 'Unauthenticated.');
         }
 
-        $this->chatService->deleteMessage($messageId, $actorPersonId);
+        $message = $this->chatService->deleteMessage($messageId, $actorPersonId);
+
+        event(new ChatMessageDeleted($message));
 
         return $this->jsonResponse(true);
     }
