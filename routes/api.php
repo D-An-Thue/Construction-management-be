@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\AppSettingController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ChatConversationController;
+use App\Http\Controllers\Api\ChatMessageController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\GroupController;
 use App\Http\Controllers\Api\PersonController;
@@ -33,6 +35,25 @@ Route::get('appsettings/public', [AppSettingController::class, 'public']);
 Route::post('roles/seed', [RoleController::class, 'seed']);
 
 Route::middleware(['jwt'])->group(function () {
+    Route::prefix('chat')->group(function () {
+        Route::get('conversations', [ChatConversationController::class, 'index']);
+        Route::post('conversations/group', [ChatConversationController::class, 'createGroup']);
+        Route::post('conversations/direct', [ChatConversationController::class, 'createDirect']);
+        Route::post('conversations/{conversationId}/read', [ChatConversationController::class, 'markRead'])
+            ->whereNumber('conversationId');
+        Route::post('conversations/{conversationId}/typing', [ChatConversationController::class, 'typing'])
+            ->whereNumber('conversationId');
+
+        Route::get('conversations/{conversationId}/messages', [ChatMessageController::class, 'index'])
+            ->whereNumber('conversationId');
+        Route::post('conversations/{conversationId}/messages', [ChatMessageController::class, 'store'])
+            ->whereNumber('conversationId');
+        Route::put('messages/{messageId}', [ChatMessageController::class, 'update'])
+            ->whereNumber('messageId');
+        Route::delete('messages/{messageId}', [ChatMessageController::class, 'destroy'])
+            ->whereNumber('messageId');
+    });
+
     Route::prefix('authentications')->group(function () {
         Route::get('me', [AuthController::class, 'me']);
     });

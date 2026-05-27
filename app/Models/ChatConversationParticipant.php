@@ -6,29 +6,23 @@ use App\Models\Traits\HasAuditColumns;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Person extends Model
+class ChatConversationParticipant extends Model
 {
     use HasFactory;
     use HasAuditColumns;
 
-    protected $table = 'Persons';
+    protected $table = 'ChatConversationParticipants';
 
     protected $primaryKey = 'Id';
 
     public $timestamps = false;
 
     protected $fillable = [
-        'Name',
-        'Sex',
-        'Email',
-        'AvatarUrl',
-        'DateOfBirth',
-        'PhoneNumber',
-        'Address',
-        'Password',
-        'BankID',
-        'BankAccountNumber',
-        'BankName',
+        'ConversationId',
+        'PersonId',
+        'LastReadMessageId',
+        'LastReadAt',
+        'MutedUntil',
         'IsDeleted',
         'CreatedBy',
         'UpdatedBy',
@@ -38,16 +32,15 @@ class Person extends Model
         'DeleteAt',
     ];
 
-    protected $hidden = [
-        'Password',
-    ];
-
     protected function casts(): array
     {
         return [
             'Id' => 'integer',
-            'Sex' => 'integer',
-            'DateOfBirth' => 'datetime',
+            'ConversationId' => 'integer',
+            'PersonId' => 'integer',
+            'LastReadMessageId' => 'integer',
+            'LastReadAt' => 'datetime',
+            'MutedUntil' => 'datetime',
             'IsDeleted' => 'boolean',
             'CreatedBy' => 'integer',
             'UpdatedBy' => 'integer',
@@ -58,23 +51,18 @@ class Person extends Model
         ];
     }
 
-    public function userRoles()
+    public function conversation()
     {
-        return $this->hasMany(UserRole::class, 'PersonId', 'Id');
+        return $this->belongsTo(ChatConversation::class, 'ConversationId', 'Id');
     }
 
-    public function roles()
+    public function person()
     {
-        return $this->belongsToMany(Role::class, 'UserRoles', 'PersonId', 'RoleId', 'Id', 'Id');
+        return $this->belongsTo(Person::class, 'PersonId', 'Id');
     }
 
-    public function personGroups()
+    public function lastReadMessage()
     {
-        return $this->hasMany(PersonGroup::class, 'PersonId', 'Id');
-    }
-
-    public function getAuthIdentifierForBroadcasting(): int
-    {
-        return (int) $this->getKey();
+        return $this->belongsTo(ChatMessage::class, 'LastReadMessageId', 'Id');
     }
 }
