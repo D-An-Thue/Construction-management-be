@@ -1338,6 +1338,230 @@
       ]
     },
     {
+      "name": "Chat",
+      "item": [
+        {
+          "name": "GET /api/chat/conversations",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/chat/conversations"
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/chat/conversations/group",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/chat/conversations/group",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"groupId\":\"{{GROUP_ID}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/chat/conversations/direct",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/chat/conversations/direct",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"recipientPersonId\":\"{{RECIPIENT_PERSON_ID}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET /api/chat/conversations/{conversationId}/messages",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/chat/conversations/{{CONVERSATION_ID}}/messages?limit={{CHAT_LIMIT}}"
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/chat/conversations/{conversationId}/messages",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/chat/conversations/{{CONVERSATION_ID}}/messages",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"body\":\"Hello from Postman\",\"replyToMessageId\":null,\"metadata\":null,\"messageType\":1}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/chat/conversations/{conversationId}/read",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/chat/conversations/{{CONVERSATION_ID}}/read",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"messageId\":\"{{MESSAGE_ID}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/chat/conversations/{conversationId}/typing",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/chat/conversations/{{CONVERSATION_ID}}/typing",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"isTyping\":true}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT /api/chat/messages/{messageId}",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/chat/messages/{{MESSAGE_ID}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"body\":\"Updated from Postman\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE /api/chat/messages/{messageId}",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{BASE_URL}}/api/chat/messages/{{MESSAGE_ID}}"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Uploads",
       "item": [
         {
@@ -1381,6 +1605,26 @@
     {
       "key": "TOKEN",
       "value": "YOUR_JWT_TOKEN"
+    },
+    {
+      "key": "GROUP_ID",
+      "value": "1"
+    },
+    {
+      "key": "RECIPIENT_PERSON_ID",
+      "value": "2"
+    },
+    {
+      "key": "CONVERSATION_ID",
+      "value": "1"
+    },
+    {
+      "key": "MESSAGE_ID",
+      "value": "1"
+    },
+    {
+      "key": "CHAT_LIMIT",
+      "value": "30"
     }
   ]
 }
