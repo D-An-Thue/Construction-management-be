@@ -1,14 +1,3 @@
-FROM node:22-bookworm-slim AS assets
-
-WORKDIR /app
-
-COPY package*.json vite.config.js ./
-COPY resources ./resources
-COPY public ./public
-
-RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi \
-    && npm run build
-
 FROM php:8.3-fpm-bookworm
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
@@ -50,7 +39,6 @@ COPY composer.json composer.lock ./
 RUN composer install --prefer-dist --no-interaction --no-progress --no-scripts
 
 COPY . .
-COPY --from=assets /app/public/build ./public/build
 
 RUN mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs bootstrap/cache \
     && composer dump-autoload --optimize \
