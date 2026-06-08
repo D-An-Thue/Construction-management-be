@@ -122,8 +122,9 @@ jobs:
             echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u "${{ secrets.GHCR_USERNAME }}" --password-stdin
             export IMAGE_NAME="${{ env.REGISTRY }}/${{ steps.image.outputs.name }}"
             export IMAGE_TAG="${{ steps.image.outputs.tag }}"
+            docker compose down
             docker compose pull
-            docker compose up -d --no-build --remove-orphans
+            docker compose up -d
             docker compose exec -T app php artisan migrate --force
             if [ -n "${{ secrets.APP_HEALTHCHECK_URL }}" ]; then
               curl -fsS "${{ secrets.APP_HEALTHCHECK_URL }}" >/dev/null
