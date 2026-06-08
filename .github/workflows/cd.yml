@@ -122,7 +122,8 @@ jobs:
             echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u "${{ secrets.GHCR_USERNAME }}" --password-stdin
             export IMAGE_NAME="${{ env.REGISTRY }}/${{ steps.image.outputs.name }}"
             export IMAGE_TAG="${{ steps.image.outputs.tag }}"
-            docker compose down
+            docker compose down --remove-orphans || true
+            docker rm -f finance_laravel_app finance_laravel_queue finance_laravel_reverb 2>/dev/null || true
             docker compose pull
             docker compose up -d
             docker compose exec -T app php artisan migrate --force
