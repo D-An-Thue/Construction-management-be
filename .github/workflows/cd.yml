@@ -122,10 +122,19 @@ jobs:
             echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u "${{ secrets.GHCR_USERNAME }}" --password-stdin
             export IMAGE_NAME="${{ env.REGISTRY }}/${{ steps.image.outputs.name }}"
             export IMAGE_TAG="${{ steps.image.outputs.tag }}"
+            export APP_IMAGE="${IMAGE_NAME}:${IMAGE_TAG}"
             docker compose down --remove-orphans || true
             docker rm -f finance_laravel_app finance_laravel_queue finance_laravel_reverb finance_laravel_nginx 2>/dev/null || true
-            docker compose pull
-            docker compose up -d
+            for attempt in 1 2 3; do
+              if docker pull "$APP_IMAGE" && docker pull nginx:1.27-alpine; then
+                break
+              fi
+              if [ "$attempt" -eq 3 ]; then
+                exit 1
+              fi
+              sleep 15
+            done
+            docker compose up -d --no-build
             docker compose exec -T app php artisan migrate --force
             if [ -n "${{ secrets.APP_HEALTHCHECK_URL }}" ]; then
               curl -fsS "${{ secrets.APP_HEALTHCHECK_URL }}" >/dev/null
