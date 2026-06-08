@@ -94,7 +94,7 @@ jobs:
         with:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
-          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          password: ${{ secrets.DEPLOY_PASSWORD }}
           script_stop: true
           script: mkdir -p "${{ secrets.DEPLOY_PATH }}"
 
@@ -103,7 +103,7 @@ jobs:
         with:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
-          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          password: ${{ secrets.DEPLOY_PASSWORD }}
           source: docker-compose.yml
           target: ${{ secrets.DEPLOY_PATH }}
 
@@ -112,7 +112,7 @@ jobs:
         with:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
-          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          password: ${{ secrets.DEPLOY_PASSWORD }}
           script_stop: true
           script: |
             set -eu
