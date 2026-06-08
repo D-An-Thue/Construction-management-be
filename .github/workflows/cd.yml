@@ -1,11 +1,7 @@
-name: Deploy to VPS
+name: CD
 
 on:
-  workflow_run:
-    workflows:
-      - Publish Docker image
-    types:
-      - completed
+  push:
     branches:
       - master
   workflow_dispatch:
@@ -17,6 +13,7 @@ on:
 
 permissions:
   contents: read
+  packages: write
 
 concurrency:
   group: production-deploy
@@ -26,9 +23,54 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
+  build-and-push:
+    name: Build and push image
+    if: ${{ github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+
+    outputs:
+      image_name: ${{ steps.image.outputs.name }}
+      image_tag: latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Normalize image name
+        id: image
+        run: echo "name=${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ steps.image.outputs.name }}
+          tags: |
+            type=raw,value=latest
+            type=sha,format=short,prefix=sha-
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
   deploy:
     name: Deploy production stack
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ always() && (github.event_name == 'workflow_dispatch' || needs.build-and-push.result == 'success') }}
+    needs: build-and-push
     runs-on: ubuntu-latest
     environment: production
 
@@ -39,11 +81,12 @@ jobs:
       - name: Resolve deployment image
         id: image
         run: |
-          echo "name=${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
           if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ inputs.image_tag }}" ]; then
+            echo "name=${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
             echo "tag=${{ inputs.image_tag }}" >> "$GITHUB_OUTPUT"
           else
-            echo "tag=latest" >> "$GITHUB_OUTPUT"
+            echo "name=${{ needs.build-and-push.outputs.image_name }}" >> "$GITHUB_OUTPUT"
+            echo "tag=${{ needs.build-and-push.outputs.image_tag }}" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Ensure deployment directory exists
